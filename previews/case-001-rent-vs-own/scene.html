@@ -3,108 +3,112 @@
 <head>
 <meta charset="utf-8">
 <style>
-  :root { --bg:#0b0b0c; --gold:#e8b931; --gold-soft:#f5d77a; --ash:#8a8f98; --line:#e9e6df; --red:#e5484d; }
+  :root { --bg:#0b0b0c; --gold:#e8b931; --rent:#4da3ff; --ash:#8a8f98; --line:#e9e6df; --red:#e5484d; }
   html,body { margin:0; background:var(--bg); }
-  #stage { width:1080px; height:1920px; position:relative; overflow:hidden; background:
-    radial-gradient(ellipse at 50% 55%, #1a1712 0%, #0b0b0c 62%); font-family:'Inter Display','Inter',sans-serif; }
-  .hook { position:absolute; left:0; right:0; text-align:center; font-weight:800; letter-spacing:-1px; color:#fff; }
-  #h1 { top:250px; font-size:90px; white-space:nowrap; }
-  #h2 { top:365px; font-size:90px; white-space:nowrap; }
-  .gold { color:var(--gold); } .red { color:var(--red); } .ash { color:var(--ash); }
-  #tag { position:absolute; top:150px; left:50%; transform:translateX(-50%); border:2px solid var(--gold);
-    color:var(--gold); font:700 30px 'Inter',sans-serif; letter-spacing:6px; padding:12px 28px; border-radius:40px; }
-  #year { position:absolute; top:1665px; left:0; right:0; text-align:center; color:#fff; font:800 76px 'Inter Display'; }
-  #year small { display:block; font:600 28px 'Inter'; letter-spacing:8px; color:var(--ash); margin-bottom:6px; }
-  #brand { position:absolute; bottom:36px; left:0; right:0; text-align:center; color:var(--gold); opacity:.55;
-    font:700 26px 'Inter'; letter-spacing:10px; }
+  #stage { width:1080px; height:1920px; position:relative; overflow:hidden; transform-origin:50% 60%;
+    background: radial-gradient(ellipse at 50% 58%, #1c1913 0%, #0b0b0c 62%); font-family:'Inter Display','Inter',sans-serif; }
+  .hook { position:absolute; left:0; right:0; text-align:center; font-weight:800; letter-spacing:-1px; color:#fff; white-space:nowrap; font-size:90px; }
+  #h1 { top:250px; } #h2 { top:365px; }
+  .gold { color:var(--gold); } .red { color:var(--red); } .blue { color:var(--rent); }
+  #tag { position:absolute; top:150px; left:50%; transform:translateX(-50%); border:2px solid #4a4436;
+    color:#a8996c; font:700 26px 'Inter',sans-serif; letter-spacing:6px; padding:10px 26px; border-radius:40px; white-space:nowrap; }
+  #year { position:absolute; top:540px; left:0; right:0; text-align:center; color:#fff; font:800 72px 'Inter Display'; }
+  #year small { display:block; font:600 24px 'Inter'; letter-spacing:8px; color:var(--ash); margin-bottom:4px; }
+  .cap { position:absolute; top:1745px; left:0; right:0; text-align:center; color:#6f6c66; font:800 44px 'Inter Display'; letter-spacing:1px; }
+  .cap b { color:#fff; } .cap .gold { color:var(--gold); }
+  #brand { position:absolute; bottom:36px; left:0; right:0; text-align:center; color:var(--gold); opacity:.5; font:700 24px 'Inter'; letter-spacing:10px; }
   svg { position:absolute; left:0; top:0; }
   .draw { fill:none; stroke:var(--line); stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
 </style>
 </head>
 <body>
 <div id="stage">
-  <div id="tag">RENT VS OWN</div>
+  <div id="tag">CASE FILE 001 · RENT VS OWN</div>
   <div class="hook" id="h1">THE OWNER IS <span class="red">BROKE.</span></div>
   <div class="hook" id="h2">THE RENTER <span class="gold">ISN'T.</span></div>
+  <div id="year"><small>YEAR</small><span id="yearNum">0</span></div>
 
   <svg width="1080" height="1920" viewBox="0 0 1080 1920">
     <defs>
+      <radialGradient id="glowBlue"><stop offset="0" stop-color="#4da3ff" stop-opacity=".45"/><stop offset="1" stop-color="#4da3ff" stop-opacity="0"/></radialGradient>
+      <radialGradient id="glowGold"><stop offset="0" stop-color="#e8b931" stop-opacity=".45"/><stop offset="1" stop-color="#e8b931" stop-opacity="0"/></radialGradient>
+      <linearGradient id="fillBlue" x1="0" y1="0" x2="0" y2="1"><stop offset=".35" stop-color="#4da3ff" stop-opacity="0"/><stop offset="1" stop-color="#4da3ff"/></linearGradient>
+      <linearGradient id="fillGold" x1="0" y1="0" x2="0" y2="1"><stop offset=".35" stop-color="#e8b931" stop-opacity="0"/><stop offset="1" stop-color="#e8b931"/></linearGradient>
       <g id="house">
-        <!-- body -->
-        <rect class="draw" pathLength="1" x="-190" y="-300" width="380" height="300"/>
-        <!-- roof -->
-        <polyline class="draw" pathLength="1" points="-225,-290 0,-460 225,-290"/>
-        <!-- chimney -->
-        <polyline class="draw" pathLength="1" points="110,-380 110,-440 150,-440 150,-350"/>
-        <!-- porch roof + columns -->
-        <polyline class="draw" pathLength="1" points="-80,-160 0,-210 80,-160 -80,-160"/>
-        <line class="draw" pathLength="1" x1="-70" y1="-160" x2="-70" y2="0"/>
-        <line class="draw" pathLength="1" x1="70" y1="-160" x2="70" y2="0"/>
-        <!-- door -->
-        <rect class="draw" pathLength="1" x="-30" y="-130" width="60" height="130"/>
-        <!-- windows -->
-        <rect class="draw" pathLength="1" x="-165" y="-230" width="70" height="80"/>
-        <path class="draw" pathLength="1" d="M-130,-230 V-150 M-165,-190 H-95"/>
-        <rect class="draw" pathLength="1" x="95" y="-230" width="70" height="80"/>
-        <path class="draw" pathLength="1" d="M130,-230 V-150 M95,-190 H165"/>
-        <!-- attic window -->
-        <circle class="draw" pathLength="1" cx="0" cy="-350" r="26"/>
-        <!-- steps -->
-        <path class="draw" pathLength="1" d="M-45,0 V12 H45 V0"/>
-      </g>
-      <g id="pawn">
-        <circle class="pawnline" cx="0" cy="-158" r="34"/>
-        <path class="pawnline" d="M-38,-118 H38"/>
-        <path class="pawnline" d="M-26,-118 C-26,-80 -52,-50 -56,-22 H56 C52,-50 26,-80 26,-118"/>
-        <rect class="pawnline" x="-72" y="-22" width="144" height="22" rx="6"/>
+        <rect class="draw" x="-190" y="-300" width="380" height="300"/>
+        <polyline class="draw" points="-225,-290 0,-460 225,-290"/>
+        <polyline class="draw" points="110,-380 110,-440 150,-440 150,-350"/>
+        <polyline class="draw" points="-80,-160 0,-210 80,-160 -80,-160"/>
+        <line class="draw" x1="-70" y1="-160" x2="-70" y2="0"/>
+        <line class="draw" x1="70" y1="-160" x2="70" y2="0"/>
+        <rect class="draw" x="-30" y="-130" width="60" height="130"/>
+        <rect class="draw" x="-165" y="-230" width="70" height="80"/>
+        <path class="draw" d="M-130,-230 V-150 M-165,-190 H-95"/>
+        <rect class="draw" x="95" y="-230" width="70" height="80"/>
+        <path class="draw" d="M130,-230 V-150 M95,-190 H165"/>
+        <circle class="draw" cx="0" cy="-350" r="26"/>
+        <path class="draw" d="M-45,0 V12 H45 V0"/>
       </g>
     </defs>
 
     <!-- street -->
-    <g id="street">
-      <line class="draw" id="ground" pathLength="1" x1="40" y1="1420" x2="1040" y2="1420"/>
-      <line class="draw" id="curb" pathLength="1" x1="40" y1="1470" x2="1040" y2="1470" style="stroke:#3a3833"/>
-      <g id="dashes" stroke="#3a3833" stroke-width="5" stroke-linecap="round">
-        <line x1="80" y1="1660" x2="160" y2="1660"/><line x1="240" y1="1660" x2="320" y2="1660"/>
-        <line x1="400" y1="1660" x2="480" y2="1660"/><line x1="560" y1="1660" x2="640" y2="1660"/>
-        <line x1="720" y1="1660" x2="800" y2="1660"/><line x1="880" y1="1660" x2="960" y2="1660"/>
-      </g>
+    <line class="draw" x1="40" y1="1420" x2="1040" y2="1420"/>
+    <line x1="40" y1="1600" x2="1040" y2="1600" stroke="#3a3833" stroke-width="4"/>
+    <g stroke="#2e2c28" stroke-width="5" stroke-linecap="round">
+      <line x1="80" y1="1690" x2="160" y2="1690"/><line x1="240" y1="1690" x2="320" y2="1690"/>
+      <line x1="400" y1="1690" x2="480" y2="1690"/><line x1="560" y1="1690" x2="640" y2="1690"/>
+      <line x1="720" y1="1690" x2="800" y2="1690"/><line x1="880" y1="1690" x2="960" y2="1690"/>
     </g>
+    <!-- walkways from door to sidewalk -->
+    <path d="M250,1432 L225,1600 M300,1432 L325,1600 M780,1432 L755,1600 M830,1432 L855,1600" stroke="#2e2c28" stroke-width="4" fill="none"/>
 
-    <!-- houses -->
-    <g id="houseL" transform="translate(275,1420) scale(1.08)"><use href="#house"/></g>
-    <g id="houseR" transform="translate(805,1420) scale(1.08)"><use href="#house"/></g>
+    <g transform="translate(275,1420) scale(1.08)"><use href="#house"/></g>
+    <g transform="translate(805,1420) scale(1.08)"><use href="#house"/></g>
 
-    <!-- fence segments + mailboxes -->
-    <g id="props" opacity="0">
-      <path d="M40,1420 V1385 M60,1420 V1385 M80,1420 V1385 M30,1395 H90" stroke="#5a5750" stroke-width="4" fill="none"/>
-      <path d="M1000,1420 V1385 M1020,1420 V1385 M1040,1420 V1385 M990,1395 H1050" stroke="#5a5750" stroke-width="4" fill="none"/>
-      <path d="M520,1420 V1360 M500,1360 H540 V1335 H500 Z" stroke="#5a5750" stroke-width="4" fill="none"/>
-    </g>
+    <!-- fence + mailbox -->
+    <path d="M40,1420 V1385 M60,1420 V1385 M80,1420 V1385 M30,1395 H90 M1000,1420 V1385 M1020,1420 V1385 M1040,1420 V1385 M990,1395 H1050 M520,1420 V1360 M500,1360 H540 V1335 H500 Z" stroke="#5a5750" stroke-width="4" fill="none"/>
 
-    <!-- labels above roofs -->
+    <!-- labels -->
     <g id="labelL" transform="translate(275,850)">
-      <rect x="-120" y="-50" width="240" height="90" rx="45" fill="none" stroke="#8a8f98" stroke-width="5"/>
-      <text x="0" y="16" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="#8a8f98" letter-spacing="6">RENT</text>
+      <rect x="-125" y="-50" width="250" height="90" rx="45" fill="#4da3ff"/>
+      <text x="0" y="16" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="#0b0b0c" letter-spacing="6">RENT</text>
     </g>
     <g id="labelR" transform="translate(805,850)">
       <rect x="-145" y="-50" width="290" height="90" rx="45" fill="#e8b931"/>
       <text x="0" y="16" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="#0b0b0c" letter-spacing="6">OWNER</text>
     </g>
 
-    <!-- characters -->
-    <g id="pawnL" transform="translate(120,1420)"><use href="#pawn" style="--c:#8a8f98"/></g>
-    <g id="pawnR" transform="translate(960,1420)"><use href="#pawn"/></g>
+    <!-- characters: slim pawn with head + eye, like the reference style -->
+    <g id="pawnL" transform="translate(215,1600)">
+      <ellipse cx="0" cy="0" rx="120" ry="34" fill="url(#glowBlue)"/>
+      <g id="bodyL">
+        <path d="M-16,-190 L-30,-24 H30 L16,-190 Z" fill="url(#fillBlue)" stroke="#4da3ff" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M-28,-190 H28" stroke="#4da3ff" stroke-width="6" stroke-linecap="round"/>
+        <rect x="-42" y="-24" width="84" height="20" rx="5" fill="#4da3ff"/>
+        <circle cx="0" cy="-228" r="32" fill="#0b0b0c" stroke="#4da3ff" stroke-width="5"/>
+        <circle cx="-6" cy="-228" r="11" fill="#4da3ff"/>
+      </g>
+    </g>
+    <g id="pawnR" transform="translate(865,1600)">
+      <ellipse cx="0" cy="0" rx="120" ry="34" fill="url(#glowGold)"/>
+      <g id="bodyR">
+        <path d="M-16,-190 L-30,-24 H30 L16,-190 Z" fill="url(#fillGold)" stroke="#e8b931" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M-28,-190 H28" stroke="#e8b931" stroke-width="6" stroke-linecap="round"/>
+        <rect x="-42" y="-24" width="84" height="20" rx="5" fill="#e8b931"/>
+        <circle cx="0" cy="-228" r="32" fill="#0b0b0c" stroke="#e8b931" stroke-width="5"/>
+        <circle cx="6" cy="-228" r="11" fill="#e8b931"/>
+      </g>
+    </g>
 
-    <!-- renter's gold jar -->
-    <g id="jar" transform="translate(205,1420)">
+    <!-- renter's savings jar -->
+    <g id="jar" transform="translate(345,1600)">
       <clipPath id="jarClip"><path d="M-36,-100 H36 V-8 Q36,0 28,0 H-28 Q-36,0 -36,-8 Z"/></clipPath>
       <rect id="jarFill" x="-40" y="0" width="80" height="0" fill="#e8b931" clip-path="url(#jarClip)"/>
       <path d="M-36,-100 H36 V-8 Q36,0 28,0 H-28 Q-36,0 -36,-8 Z M-42,-112 H42 V-100 H-42 Z" fill="none" stroke="#e8b931" stroke-width="5"/>
     </g>
 
     <!-- owner's debt weight -->
-    <g id="debt" transform="translate(880,1420)">
+    <g id="debt" transform="translate(730,1600)">
       <g id="debtInner">
         <path d="M-60,0 L-45,-90 H45 L60,0 Z" fill="#e5484d"/>
         <path d="M-22,-90 Q-22,-120 0,-120 Q22,-120 22,-90" fill="none" stroke="#e5484d" stroke-width="10"/>
@@ -113,13 +117,11 @@
     </g>
   </svg>
 
-  <div id="year"><small>YEAR</small><span id="yearNum">0</span></div>
+  <div class="cap" id="cap1"><b>SAME</b> HOUSE. <b>SAME</b> STREET.</div>
+  <div class="cap" id="cap2">ONE PAYS <b class="blue">RENT</b>. ONE <span class="gold">OWNS</span>.</div>
   <div id="brand">THE GOLD MIND</div>
 </div>
 
-<style>
-  .pawnline { fill:#0b0b0c; stroke:var(--c, #e8b931); stroke-width:6; stroke-linejoin:round; }
-</style>
 <script>
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const prog=(t,s,e)=>clamp((t-s)/(e-s));
@@ -127,52 +129,42 @@ const easeOut=x=>1-Math.pow(1-x,3);
 const back=x=>{const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
 const $=id=>document.getElementById(id);
 
-function pop(el,p,baseTransform=''){
-  const s = p<=0?0:back(p);
-  el.style.opacity = p<=0?0:1;
-  el.setAttribute ? null : null;
-  return s;
-}
-
 window.render = function(t){
-  // HOOK line 1 on frame 0 (punch-in)
-  const h1=prog(t,0,0.25); $('h1').style.transform=`scale(${1.08-0.08*easeOut(h1)})`; $('h1').style.opacity=1;
-  const tg=prog(t,0.1,0.5); $('tag').style.opacity=tg;
-  // houses draw
-  const d=easeOut(prog(t,0.15,1.3));
-  document.querySelectorAll('.draw').forEach(el=>{el.style.strokeDasharray='1 1'; el.style.strokeDashoffset=1-d;});
-  $('props').setAttribute('opacity',prog(t,1.1,1.5));
-  // labels drop
-  [['labelL',275,0.9],['labelR',805,1.05]].forEach(([id,x,s])=>{
-    const p=prog(t,s,s+0.35); const y=850-120*(1-easeOut(p));
-    $(id).setAttribute('transform',`translate(${x},${y}) scale(${p>0?back(p):0.001})`);
-    $(id).setAttribute('opacity',p>0?1:0);
-  });
-  // pawns pop
-  [['pawnL',215,1.35],['pawnR',865,1.5]].forEach(([id,x,s])=>{
-    const p=prog(t,s,s+0.3); const sc=p>0?back(p):0.001;
-    let sink=0; if(id==='pawnR'){ sink = 14*easeOut(prog(t,2.9,3.3)); }
-    $(id).setAttribute('transform',`translate(${x},${1580+sink}) scale(${1.25*sc},${1.25*(id==='pawnR'?sc*(1-sink/200):sc)})`);
-  });
-  // hook line 2
-  const h2=prog(t,1.9,2.15); $('h2').style.opacity=h2>0?1:0; $('h2').style.transform=`scale(${1.08-0.08*easeOut(h2)})`;
-  // debt drop onto owner
-  const dp=prog(t,2.6,2.95); const dy=-700*(1-dp*dp);
-  const squash = dp>=1 ? 1-0.12*Math.max(0,1-prog(t,2.95,3.25)) : 1;
-  const growD = 1+0.35*easeOut(prog(t,3.6,6));
-  $('debt').setAttribute('transform',`translate(715,${1580+dy})`);
+  // Frame 0: full scene + hook line 1 already on screen. Small punch on the hook.
+  $('h1').style.transform=`scale(${1.06-0.06*easeOut(prog(t,0,0.2))})`;
+  const h2=prog(t,1.2,1.4); $('h2').style.opacity=h2>0?1:0; $('h2').style.transform=`scale(${1.06-0.06*easeOut(h2)})`;
+
+  // idle bob on labels and characters
+  $('labelL').setAttribute('transform',`translate(275,${850+6*Math.sin(t*3)})`);
+  $('labelR').setAttribute('transform',`translate(805,${850+6*Math.sin(t*3+1.6)})`);
+  $('bodyL').setAttribute('transform',`translate(0,${-4*Math.abs(Math.sin(t*2.4))})`);
+
+  // captions
+  $('cap1').style.opacity = t<2.2 ? 1 : 0;
+  $('cap2').style.opacity = t>=2.2 ? 1 : 0;
+
+  // debt drops on owner at 2.4s, owner sinks
+  const dp=prog(t,2.4,2.75); const dy=-900*(1-dp*dp);
+  const squash = dp>=1 ? 1-0.14*Math.max(0,1-prog(t,2.75,3.05)) : 1;
+  const growD = 1+0.4*easeOut(prog(t,3.4,6));
+  $('debt').setAttribute('transform',`translate(730,${1600+dy})`);
   $('debt').setAttribute('opacity',dp>0?1:0);
   $('debtInner').setAttribute('transform',`scale(${growD*(2-squash)},${growD*squash})`);
-  // jar
-  const jp=prog(t,2.7,3.0); $('jar').setAttribute('opacity',jp>0?1:0);
-  $('jar').setAttribute('transform',`translate(360,1580) scale(${jp>0?back(jp):0.001})`);
-  const fill = 100*easeOut(prog(t,3.3,6))*0.9 + 8*prog(t,3.0,3.3);
+  const sink = 16*easeOut(prog(t,2.7,3.1));
+  $('bodyR').setAttribute('transform',`translate(0,${sink}) scale(1,${1-sink/260})`);
+
+  // renter's jar fills
+  const jp=prog(t,2.5,2.8); $('jar').setAttribute('opacity',jp>0?1:0);
+  $('jar').setAttribute('transform',`translate(345,1600) scale(${jp>0?back(jp):0.001})`);
+  const fill = 92*easeOut(prog(t,3.0,6));
   $('jarFill').setAttribute('y',-fill); $('jarFill').setAttribute('height',fill);
+
   // year counter
-  const yp=prog(t,3.4,3.7); $('year').style.opacity=yp;
-  $('yearNum').textContent = Math.floor(10*prog(t,3.7,5.9));
+  $('year').style.opacity=prog(t,3.0,3.3);
+  $('yearNum').textContent = Math.floor(10*prog(t,3.3,5.9));
+
   // slow push-in
-  const z=1+0.035*prog(t,0,6); $('stage').style.transform=`scale(${z})`; $('stage').style.transformOrigin='50% 60%';
+  $('stage').style.transform=`scale(${1+0.03*prog(t,0,6)})`;
 };
 window.render(0);
 </script>
