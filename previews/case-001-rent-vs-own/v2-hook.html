@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --ink:#e4ded4; --gold:#e0b860; --red:#e5534b; --green:#4cc38a; --steel:#9fb4c8; }
+  html,body { margin:0; background:#121212; }
+  #stage { width:1080px; height:1920px; position:relative; overflow:hidden;
+    background: radial-gradient(ellipse at 50% 58%, #1d1b17 0%, #141414 55%, #0e0e0e 100%); font-family:'Inter Display','Inter',sans-serif; }
+  #world { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; }
+  svg { position:absolute; left:0; top:0; overflow:visible; }
+  .head { position:absolute; left:0; right:0; top:240px; text-align:center; color:var(--ink);
+    font-weight:700; font-size:104px; line-height:1.06; letter-spacing:-1.5px; }
+  .gold { color:var(--gold); } .red { color:var(--red); }
+  #flash { position:absolute; inset:0; background:#fff; opacity:0; }
+  #vignette { position:absolute; inset:0; pointer-events:none; background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%); }
+  .gG { filter: drop-shadow(0 0 8px rgba(224,184,96,.85)) drop-shadow(0 0 24px rgba(224,184,96,.45)); }
+  .gR { filter: drop-shadow(0 0 8px rgba(229,83,75,.85)) drop-shadow(0 0 24px rgba(229,83,75,.4)); }
+  .gN { filter: drop-shadow(0 0 8px rgba(76,195,138,.85)) drop-shadow(0 0 24px rgba(76,195,138,.4)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="world">
+    <svg id="svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+      <defs>
+        <radialGradient id="glowGold"><stop offset="0" stop-color="#e0b860" stop-opacity=".26"/><stop offset="1" stop-color="#e0b860" stop-opacity="0"/></radialGradient>
+        <radialGradient id="glowSteel"><stop offset="0" stop-color="#9fb4c8" stop-opacity=".22"/><stop offset="1" stop-color="#9fb4c8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="glowRed"><stop offset="0" stop-color="#e5534b" stop-opacity=".35"/><stop offset="1" stop-color="#e5534b" stop-opacity="0"/></radialGradient>
+        <radialGradient id="glowGreen"><stop offset="0" stop-color="#4cc38a" stop-opacity=".35"/><stop offset="1" stop-color="#4cc38a" stop-opacity="0"/></radialGradient>
+        <linearGradient id="liqGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecd08e"/><stop offset="1" stop-color="#8a6a2c"/></linearGradient>
+        <linearGradient id="liqSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c3d3e2"/><stop offset="1" stop-color="#4f6478"/></linearGradient>
+        <linearGradient id="groundFade" x1="0" x2="1"><stop offset="0" stop-color="#ddd7cd" stop-opacity="0"/><stop offset=".15" stop-color="#ddd7cd" stop-opacity=".3"/><stop offset=".85" stop-color="#ddd7cd" stop-opacity=".3"/><stop offset="1" stop-color="#ddd7cd" stop-opacity="0"/></linearGradient>
+        <clipPath id="bodyClip"><path d="M-20,-210 L-36,-18 H36 L20,-210 Z"/></clipPath>
+        <g id="house" fill="none" stroke="#c9c3b8" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="-170" y="-270" width="340" height="270"/>
+          <polyline points="-200,-262 0,-410 200,-262"/>
+          <polyline points="100,-340 100,-392 134,-392 134,-312"/>
+          <polyline points="-72,-145 0,-190 72,-145 -72,-145"/>
+          <line x1="-62" y1="-145" x2="-62" y2="0"/><line x1="62" y1="-145" x2="62" y2="0"/>
+          <rect x="-27" y="-118" width="54" height="118"/>
+          <circle cx="16" cy="-58" r="3" fill="#e0b860" stroke="none"/>
+          <rect x="-148" y="-208" width="62" height="72"/><path d="M-117,-208 V-136 M-148,-172 H-86"/>
+          <rect x="86" y="-208" width="62" height="72"/><path d="M117,-208 V-136 M86,-172 H148"/>
+          <path d="M-156,-136 H-78 M78,-136 H156" stroke-width="5"/>
+          <circle cx="0" cy="-314" r="22"/>
+          <path d="M-45,0 V10 H45 V0" />
+        </g>
+        <g id="debtIcon">
+          <g stroke="#e5534b" stroke-width="5" stroke-linejoin="round" fill="none">
+            <path d="M-20,-62 Q-20,-86 0,-86 Q20,-86 20,-62"/>
+            <path d="M-42,0 L-30,-62 H30 L42,0 Z" fill="#e5534b"/>
+          </g>
+          <text y="-22" text-anchor="middle" font-family="Inter" font-weight="800" font-size="19" letter-spacing="3" fill="#141414">DEBT</text>
+        </g>
+      </defs>
+
+      <rect x="-600" y="1290" width="2280" height="1000" fill="#0f0f0f"/>
+      <rect x="-600" y="1290" width="2280" height="3" fill="url(#groundFade)"/>
+      <!-- street lane -->
+      <g id="lane" stroke="#2c2a26" stroke-width="6" stroke-linecap="round"></g>
+
+      <ellipse id="glL" cx="300" cy="1120" rx="360" ry="360" fill="url(#glowSteel)"/>
+      <ellipse id="glR" cx="780" cy="1120" rx="360" ry="360" fill="url(#glowGold)"/>
+      <ellipse id="glRed" cx="780" cy="1080" rx="320" ry="320" fill="url(#glowRed)" opacity="0"/>
+      <ellipse id="glGreen" cx="300" cy="1080" rx="320" ry="320" fill="url(#glowGreen)" opacity="0"/>
+
+      <g id="scene"></g>
+      <path id="thread" fill="none" stroke="#e0b860" stroke-width="5" stroke-linecap="round" class="gG"/>
+      <circle id="threadHead" r="9" fill="#fff4d6" class="gG"/>
+      <g id="fx"></g>
+    </svg>
+  </div>
+  <div class="head" id="head"></div>
+  <div id="flash"></div>
+  <div id="vignette"></div>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const prog=(t,s,e)=>clamp((t-s)/(e-s));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const easeOut=x=>1-Math.pow(1-x,3);
+const expo=x=>x>=1?1:1-Math.pow(2,-10*x);
+const back=x=>{const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const popS=p=>p>0?back(p):0.001;
+const $=id=>document.getElementById(id);
+const el=(tag,a,p)=>{const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e;};
+const txt=(p,s,a)=>{const e=el('text',Object.assign({'font-family':'Inter','font-weight':800},a),p);e.textContent=s;return e;};
+const S=$('scene');
+
+for(let x=-500;x<1600;x+=140) el('line',{x1:x,y1:1420,x2:x+70,y2:1420},$('lane'));
+
+/* ---- American flag (pole on left if side=1, mirrored if -1) ---- */
+function flag(parent,x,side){
+  const g=el('g',{transform:`translate(${x},1205)`},parent);
+  el('line',{x1:0,y1:0,x2:0,y2:-400,stroke:'#c9c3b8','stroke-width':5,'stroke-linecap':'round'},g);
+  el('circle',{cx:0,cy:-406,r:8,fill:'#e0b860',class:'gG'},g);
+  const W=150,H=84,N=30,sw=W/N,sh=H/13, slices=[];
+  for(let i=0;i<N;i++){
+    const s=el('g',{},g); const x0=side*(i*sw)-(side<0?sw:0);
+    for(let k=0;k<13;k++) el('rect',{x:x0,y:-398+k*sh,width:sw+.6,height:sh+.3,fill:k%2?'#efeae2':'#b8323a'},s);
+    if(i<N*0.42){ el('rect',{x:x0,y:-398,width:sw+.6,height:sh*7,fill:'#2f3d6b'},s);
+      if(i%3===1) for(let r=0;r<5;r++) el('circle',{cx:x0+sw/2,cy:-392+r*9.6+(i%6===1?4.8:0),r:1.9,fill:'#fff'},s); }
+    slices.push(s);
+  }
+  return {g,slices,N};
+}
+function waveFlag(f,t,amp=1){ f.slices.forEach((s,i)=>{const k=i/f.N; const dy=Math.sin(t*7-i*.42)*7*k*amp; s.setAttribute('transform',`translate(0,${dy})`); s.setAttribute('opacity',.82+.18*Math.cos(t*7-i*.42));}); }
+
+/* ---- scene props ---- */
+const houses=el('g',{},S);
+el('use',{href:'#house',transform:'translate(300,1205) scale(.86)'},houses);
+el('use',{href:'#house',transform:'translate(780,1205) scale(.86)'},houses);
+// picket fences + walkway
+function fence(x0,x1){const g=el('g',{stroke:'#6b675f','stroke-width':3.5,fill:'none'},S);for(let x=x0;x<=x1;x+=20)el('path',{d:`M${x},1260 V1226 L${x+5},1219 L${x+10},1226 V1260`},g);el('path',{d:`M${x0-4},1236 H${x1+14} M${x0-4},1252 H${x1+14}`},g);}
+fence(70,200); fence(400,500); fence(580,680); fence(880,1010);
+// mailbox
+const mb=el('g',{transform:'translate(540,1260)'},S);
+el('line',{x1:0,y1:0,x2:0,y2:-70,stroke:'#c9c3b8','stroke-width':5},mb);
+el('path',{d:'M-34,-70 V-104 Q-34,-124 0,-124 Q34,-124 34,-104 V-70 Z',fill:'#161616',stroke:'#c9c3b8','stroke-width':4},mb);
+const mbFlag=el('path',{d:'M34,-100 H44 V-130 H64 V-116 H44',fill:'#e5534b',stroke:'#e5534b','stroke-width':3},mb);
+const flagL=flag(S,82,1), flagR=flag(S,998,-1);
+// labels
+function pill(label,color,w){const g=el('g',{},S);el('rect',{x:-w/2,y:-26,width:w,height:52,rx:26,fill:'#141414',stroke:color,'stroke-width':2.5},g);txt(g,label,{y:11,'text-anchor':'middle','font-size':28,'letter-spacing':7,fill:color});return g;}
+const lblL=pill('RENT','#9fb4c8',164), lblR=pill('OWNER','#e0b860',196);
+
+/* ---- characters ---- */
+function buildChar(parent,kind,dir){
+  const color=kind==='owner'?'#e0b860':'#9fb4c8', liquid=kind==='owner'?'liqGold':'liqSteel';
+  const root=el('g',{},parent);
+  el('ellipse',{cx:0,cy:3,rx:72,ry:10,fill:'#000','fill-opacity':.6},root);
+  const rig=el('g',{},root);
+  el('rect',{x:-50,y:-18,width:100,height:18,rx:4,fill:color,stroke:'#f1ece3','stroke-width':3},rig);
+  el('path',{d:'M-20,-210 L-36,-18 H36 L20,-210 Z',fill:'#141414'},rig);
+  const liq=el('rect',{x:-40,y:-18,width:80,height:0,fill:`url(#${liquid})`,'clip-path':'url(#bodyClip)'},rig);
+  const liqTop=el('line',{x1:-36,x2:36,stroke:'#f6ecd2','stroke-opacity':.7,'stroke-width':2,'clip-path':'url(#bodyClip)'},rig);
+  el('path',{d:'M-20,-210 L-36,-18 H36 L20,-210 Z',fill:'none',stroke:'#f1ece3','stroke-width':4,'stroke-linejoin':'round'},rig);
+  if(kind==='owner') el('path',{d:'M-6,-210 L0,-150 L6,-210 Z',fill:'#e0b860'},rig);
+  const armL=el('line',{stroke:'#f1ece3','stroke-width':4,'stroke-linecap':'round'},rig);
+  const armR=el('line',{stroke:'#f1ece3','stroke-width':4,'stroke-linecap':'round'},rig);
+  el('rect',{x:-30,y:-222,width:60,height:12,rx:3,fill:'#f1ece3'},rig);
+  const head=el('g',{},rig);
+  el('rect',{x:-6,y:-234,width:12,height:14,fill:'#f1ece3'},head);
+  el('circle',{cx:0,cy:-272,r:38,fill:'#f1ece3'},head);
+  if(kind==='renter') el('path',{d:'M-38,-286 Q-36,-314 0,-314 Q34,-314 38,-288 Z M30,-292 H62',fill:'#f1ece3',stroke:'#f1ece3','stroke-width':5,'stroke-linecap':'round'},head);
+  const pupil=el('ellipse',{cx:0,cy:-272,rx:20,ry:20,fill:'#0d0d0d'},head);
+  return {root,rig,liq,liqTop,armL,armR,head,pupil,dir};
+}
+function pose(c,x,y,t,o){
+  o=Object.assign({level:.3,squash:1,sag:0,hop:0,swing:6,lift:0,lookX:c.dir,lookY:0,blink:1,shake:0,lean:0},o);
+  const ph=x*.013, breathe=1+.014*Math.sin(t*5+ph), sway=1.4*Math.sin(t*2.8+ph)+o.lean;
+  c.root.setAttribute('transform',`translate(${x+o.shake},${y})`);
+  c.rig.setAttribute('transform',`translate(0,${-o.hop}) rotate(${sway*(1-o.sag)}) scale(${1+(1-o.squash)*.6},${breathe*o.squash})`);
+  const h=192*o.level, ly=-18-h; c.liq.setAttribute('y',ly); c.liq.setAttribute('height',h);
+  c.liqTop.setAttribute('y1',ly+3*Math.sin(t*6)); c.liqTop.setAttribute('y2',ly-3*Math.sin(t*6));
+  const sw=o.swing*Math.sin(t*4.4+ph), hy=-110+o.sag*40-o.lift;
+  c.armL.setAttribute('x1',-22);c.armL.setAttribute('y1',-200);c.armL.setAttribute('x2',-50-sw-o.lift*.6);c.armL.setAttribute('y2',hy);
+  c.armR.setAttribute('x1',22);c.armR.setAttribute('y1',-200);c.armR.setAttribute('x2',50-sw+o.lift*.6);c.armR.setAttribute('y2',hy);
+  c.head.setAttribute('transform',`translate(0,${o.sag*14+2*Math.sin(t*5+ph)})`);
+  c.pupil.setAttribute('cx',8*o.lookX); c.pupil.setAttribute('cy',-272+8*o.lookY+o.sag*6); c.pupil.setAttribute('ry',20*o.blink);
+}
+const blink=(t,ts)=>{for(const b of ts){const p=(t-b)/.14;if(p>=0&&p<=1)return .12+.88*Math.abs(1-2*p);}return 1;};
+const renter=buildChar(S,'renter',1), owner=buildChar(S,'owner',-1);
+
+/* ---- fx: debt, dollar bill, floating numbers ---- */
+const debt=el('use',{href:'#debtIcon'},$('fx'));
+function bill(parent){ // stylized US dollar bill
+  const g=el('g',{},parent);
+  el('rect',{x:-80,y:-38,width:160,height:76,rx:6,fill:'#18201a',stroke:'#8fbf8a','stroke-width':3},g);
+  el('rect',{x:-70,y:-29,width:140,height:58,rx:4,fill:'none',stroke:'#8fbf8a','stroke-width':1.5,'stroke-opacity':.7},g);
+  el('ellipse',{cx:0,cy:0,rx:20,ry:24,fill:'none',stroke:'#8fbf8a','stroke-width':2.5},g);
+  txt(g,'$',{y:8,'text-anchor':'middle','font-size':24,fill:'#8fbf8a'});
+  [[-56,-14],[56,-14],[-56,22],[56,22]].forEach(([x,y])=>txt(g,'1',{x,y,'text-anchor':'middle','font-size':16,fill:'#8fbf8a'}));
+  return g;
+}
+const bills=[0,1,2].map(()=>{const b=bill($('fx'));b.setAttribute('class','gN');return b;});
+const numRed=txt($('fx'),'−$1,055',{'text-anchor':'middle','font-size':54,fill:'#e5534b',class:'gR','font-family':'Inter Display'});
+const numGreen=txt($('fx'),'+$1,055',{'text-anchor':'middle','font-size':54,fill:'#4cc38a',class:'gN','font-family':'Inter Display'});
+const sparks=[]; for(let i=0;i<14;i++) sparks.push(el('circle',{r:4,fill:'#f3dca0',class:'gG'},$('fx')));
+
+/* thread: arc from owner (780,1000) over the street to renter (300,1000) */
+const P0=[760,1020],P1=[700,640],P2=[380,640],P3=[320,1010];
+const bez=(u)=>{const m=1-u;return [0,1].map(k=>m*m*m*P0[k]+3*m*m*u*P1[k]+3*m*u*u*P2[k]+u*u*u*P3[k]);};
+
+/* ---- headline beats ---- */
+const HEAD=[[0,2.5,'THE OWNER<br>IS <span class="red">BROKE.</span>'],[2.5,6.01,'THE RENTER<br><span class="gold">ISN\'T.</span>']];
+function head(t){const n=$('head');let cur=HEAD.find(b=>t>=b[0]&&t<b[1]);if(!cur){n.style.opacity=0;return;}
+  if(n.dataset.k!=cur[0]){n.innerHTML=cur[2];n.dataset.k=cur[0];}
+  const a=cur[0]===0?1:prog(t,cur[0],cur[0]+.2), b=cur[1]>6?0:prog(t,cur[1]-.12,cur[1]);
+  n.style.opacity=a*(1-b); n.style.filter=`blur(${(1-a)*12+b*12}px)`;
+  n.style.transform=`translateY(${(1-expo(a))*30}px) scale(${cur[0]===0?1.04-.04*expo(prog(t,0,.4)):1})`;}
+
+/* ---- camera: focus point + zoom, follows the action ---- */
+function camAt(t){
+  // keys: [t, fx, fy, z]
+  const K=[[0,540,1050,1.0],[1.1,560,1060,1.04],[1.6,760,1060,1.32],[2.45,760,1060,1.38]];
+  if(t<2.45){let i=0;while(i<K.length-2&&t>K[i+1][0])i++;const a=K[i],b=K[i+1],p=ease(prog(t,a[0],b[0]));return a.map((v,k)=>v+(b[k]-v)*p);}
+  if(t<3.75){ // ride the thread
+    const u=ease(prog(t,2.45,3.75)), p=bez(u); const z=1.38-.22*Math.sin(u*Math.PI);
+    return [0,p[0],1060,z];
+  }
+  const a=[3.75,320,1060,1.38], b=[4.75,330,1060,1.42], c=[6,540,1050,1.02];
+  if(t<4.75){const p=easeOut(prog(t,a[0],b[0]));return a.map((v,k)=>v+(b[k]-v)*p);}
+  const p=ease(prog(t,4.75,6));return b.map((v,k)=>v+(c[k]-v)*p);
+}
+const SHAKES=[1.95];
+
+window.render=function(t){
+  let [_,fx,fy,z]=camAt(t);
+  let sh=0; for(const s0 of SHAKES){const s=prog(t,s0,s0+.3); if(s>0&&s<1) sh+=(1-s)*14*Math.sin(s*55);}
+  const rot=.6*Math.sin(t*.9);
+  $('world').style.transform=`translate(${540-fx*z+sh}px,${1050-fy*z+sh*.4}px) scale(${z}) rotate(${rot*.3}deg)`;
+  head(t);
+
+  waveFlag(flagL,t); waveFlag(flagR,t+1.3);
+  mbFlag.setAttribute('transform',`rotate(${t>4.3?-90*easeOut(prog(t,4.3,4.6)):0},44,-100)`);
+  lblL.setAttribute('transform',`translate(300,${780+5*Math.sin(t*2.6)})`);
+  lblR.setAttribute('transform',`translate(780,${780+5*Math.sin(t*2.6+1.5)})`);
+  const lblO=t<1.1?1:(t<4.8?(1-prog(t,1.1,1.3)):prog(t,4.8,5.2)); lblR.setAttribute('opacity',lblO); lblL.setAttribute('opacity',t<3.4?1:(t<4.8?1-prog(t,3.4,3.6):prog(t,4.8,5.2)));
+
+  // owner: looks up at debt, gets hit, shakes
+  const dIn=prog(t,1.25,1.5), dDrop=prog(t,1.6,1.95), land=prog(t,1.95,2.3), hit=dDrop>=1;
+  debt.setAttribute('transform',`translate(780,${1290-520+210*dDrop*dDrop+(hit?6*easeOut(land):0)}) scale(${popS(dIn)})`);
+  const shakeO = hit&&t<2.5 ? 6*Math.sin(t*70)*(1-prog(t,1.95,2.5)) : 0;
+  pose(owner,780,1290,t,{level:.6-.42*ease(prog(t,1.95,3.2)),squash:hit?.88+.08*easeOut(land):1,sag:hit?easeOut(land):0,
+    lookX:hit?0:-.3,lookY:t>1.2&&!hit?-1:(hit?.6:0),swing:hit?1:6,shake:shakeO,blink:blink(t,[.7,3.6,5.2])});
+  $('glRed').setAttribute('opacity',hit?Math.min(1,land*1.4)*(1-.5*prog(t,4,6)):0);
+  $('glR').setAttribute('opacity',1-.8*prog(t,1.9,2.6));
+  const rp=prog(t,2.0,2.9); numRed.setAttribute('x',630); numRed.setAttribute('y',960-50*easeOut(rp)); numRed.setAttribute('opacity',rp>0?Math.min(1,rp*4)*(1-prog(t,2.6,3.0)):0);
+
+  // thread from owner to renter, camera rides it
+  const u=ease(prog(t,2.45,3.75)), N=40; let d='';
+  for(let i=0;i<=N;i++){const q=bez(u*i/N); d+=(i?'L':'M')+q[0].toFixed(1)+','+q[1].toFixed(1);}
+  const tailFade=1-prog(t,4.4,5.4);
+  $('thread').setAttribute('d',u>0?d:''); $('thread').setAttribute('opacity',tailFade);
+  const hp=bez(u); $('threadHead').setAttribute('cx',hp[0]); $('threadHead').setAttribute('cy',hp[1]);
+  $('threadHead').setAttribute('opacity',u>0&&u<1?1:0); $('threadHead').setAttribute('r',9+3*Math.sin(t*30));
+  sparks.forEach((s,i)=>{const back=(i+1)*.018, q=bez(clamp(u-back)); const on=u>0&&u<1&&u-back>0;
+    s.setAttribute('cx',q[0]+6*Math.sin(t*20+i)); s.setAttribute('cy',q[1]+6*Math.cos(t*17+i)); s.setAttribute('opacity',on?(1-i/14):0); s.setAttribute('r',4.5-i*.25);});
+
+  // dollar bills land on renter
+  bills.forEach((b,i)=>{const p=prog(t,3.55+i*.12,4.0+i*.12); const on=p>0;
+    const x=300+(i-1)*95*easeOut(p), y=1000-140*Math.sin(p*Math.PI)+150*easeOut(p)+i*8;
+    b.setAttribute('transform',`translate(${x},${y+6*Math.sin(t*3+i)}) rotate(${(i-1)*14+8*Math.sin(t*2+i)}) scale(${on?.75*back(Math.min(1,p*1.3)):0.001})`);});
+  const gp=prog(t,3.85,4.6); numGreen.setAttribute('x',470); numGreen.setAttribute('y',1090-50*easeOut(gp)); numGreen.setAttribute('opacity',gp>0?Math.min(1,gp*4)*(1-prog(t,5.2,5.6)):0);
+  $('glGreen').setAttribute('opacity',ease(prog(t,3.7,4.3))*(1-.5*prog(t,5,6)));
+  $('glL').setAttribute('opacity',.35+.65*prog(t,3.7,4.3));
+
+  // renter: eyes follow the thread, hops when money lands
+  const look=u>0&&u<1?clamp((hp[0]-300)/300,-1,1):(t<2.45?.6:0.2);
+  const hopP=prog(t,3.9,4.35), hop=hopP>0&&hopP<1?Math.sin(hopP*Math.PI)*34:0;
+  pose(renter,300,1290,t,{level:.22+.45*ease(prog(t,3.9,5.6)),hop,lift:hop*1.1+(t>4.35&&t<5?20*(1-prog(t,4.35,5)):0),
+    lookX:look,lookY:u>0&&u<1?-.8:0,lean:u>0&&u<1?3*look:0,blink:blink(t,[1.0,5.5])});
+};
+window.render(0);
+</script>
+</body>
+</html>
