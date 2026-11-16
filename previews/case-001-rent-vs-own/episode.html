@@ -1,0 +1,403 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --ink:#ddd7cd; --dim:#8b877f; --gold:#e0b860; --red:#c4473f; --steel:#9fb4c8; }
+  html,body { margin:0; background:#111; }
+  #stage { width:1080px; height:1920px; position:relative; overflow:hidden;
+    background: linear-gradient(#1c1c1c 0%, #171717 55%, #101010 100%); font-family:'Inter Display','Inter',sans-serif; }
+  #world { position:absolute; inset:0; transform-origin:50% 62%; }
+  svg { position:absolute; left:0; top:0; overflow:visible; }
+  .head { position:absolute; left:0; right:0; top:250px; text-align:center; color:var(--ink);
+    font-weight:700; font-size:100px; line-height:1.08; letter-spacing:-1px; }
+  .gold { color:var(--gold); } .red { color:var(--red); } .steel { color:var(--steel); }
+  #tag { position:absolute; top:56px; left:56px; border:1.5px solid #4b4537; color:#8d7f5c; border-radius:30px;
+    font:700 17px 'Inter'; letter-spacing:4px; padding:7px 16px; }
+  #cap { position:absolute; left:90px; right:90px; top:1520px; text-align:center; color:var(--dim);
+    font:800 38px 'Inter'; line-height:1.3; letter-spacing:.5px; }
+  #cap b { color:#f1ece3; }
+  #note { position:absolute; left:0; right:0; top:1700px; text-align:center; color:#5d5a54;
+    font:600 20px 'Inter'; letter-spacing:3px; }
+  #flash { position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; }
+  #fade { position:absolute; inset:0; background:#0c0c0c; opacity:0; pointer-events:none; }
+  #vignette { position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse at 50% 50%, transparent 52%, rgba(0,0,0,.6) 100%); }
+  #grain { position:absolute; inset:-64px; pointer-events:none; opacity:.06; mix-blend-mode:screen; }
+  .glowG { filter: drop-shadow(0 0 10px rgba(224,184,96,.7)) drop-shadow(0 0 26px rgba(224,184,96,.35)); }
+  .glowR { filter: drop-shadow(0 0 10px rgba(196,71,63,.8)) drop-shadow(0 0 28px rgba(196,71,63,.4)); }
+  .glowS { filter: drop-shadow(0 0 10px rgba(159,180,200,.7)) drop-shadow(0 0 26px rgba(159,180,200,.3)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="world">
+    <svg id="svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+      <defs>
+        <radialGradient id="glowGold"><stop offset="0" stop-color="#e0b860" stop-opacity=".24"/><stop offset="1" stop-color="#e0b860" stop-opacity="0"/></radialGradient>
+        <radialGradient id="glowSteel"><stop offset="0" stop-color="#9fb4c8" stop-opacity=".22"/><stop offset="1" stop-color="#9fb4c8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="glowRed"><stop offset="0" stop-color="#c4473f" stop-opacity=".3"/><stop offset="1" stop-color="#c4473f" stop-opacity="0"/></radialGradient>
+        <radialGradient id="dust"><stop offset="0" stop-color="#f3dca0" stop-opacity=".9"/><stop offset="1" stop-color="#f3dca0" stop-opacity="0"/></radialGradient>
+        <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1ece3" stop-opacity=".13"/><stop offset="1" stop-color="#f1ece3" stop-opacity="0"/></linearGradient>
+        <linearGradient id="liqGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecd08e"/><stop offset="1" stop-color="#8a6a2c"/></linearGradient>
+        <linearGradient id="liqSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c3d3e2"/><stop offset="1" stop-color="#4f6478"/></linearGradient>
+        <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0b860" stop-opacity=".35"/><stop offset="1" stop-color="#e0b860" stop-opacity="0"/></linearGradient>
+        <linearGradient id="groundFade" x1="0" x2="1"><stop offset="0" stop-color="#ddd7cd" stop-opacity="0"/><stop offset=".15" stop-color="#ddd7cd" stop-opacity=".35"/><stop offset=".85" stop-color="#ddd7cd" stop-opacity=".35"/><stop offset="1" stop-color="#ddd7cd" stop-opacity="0"/></linearGradient>
+        <clipPath id="bodyClip"><path d="M-20,-210 L-36,-18 H36 L20,-210 Z"/></clipPath>
+        <g id="house" fill="none" stroke="#bdb7ad" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="-170" y="-270" width="340" height="270"/>
+          <polyline points="-200,-262 0,-410 200,-262"/>
+          <polyline points="100,-340 100,-392 134,-392 134,-312"/>
+          <polyline points="-72,-145 0,-190 72,-145 -72,-145"/>
+          <line x1="-62" y1="-145" x2="-62" y2="0"/><line x1="62" y1="-145" x2="62" y2="0"/>
+          <rect x="-27" y="-118" width="54" height="118"/>
+          <rect x="-148" y="-208" width="62" height="72"/><path d="M-117,-208 V-136 M-148,-172 H-86"/>
+          <rect x="86" y="-208" width="62" height="72"/><path d="M117,-208 V-136 M86,-172 H148"/>
+          <circle cx="0" cy="-314" r="22"/>
+        </g>
+        <g id="debtIcon">
+          <g fill="none" stroke="#c4473f" stroke-width="5" stroke-linejoin="round">
+            <path d="M-20,-62 Q-20,-86 0,-86 Q20,-86 20,-62"/>
+            <path d="M-42,0 L-30,-62 H30 L42,0 Z" fill="#c4473f"/>
+          </g>
+          <text y="-22" text-anchor="middle" font-family="Inter" font-weight="800" font-size="19" letter-spacing="3" fill="#141414">DEBT</text>
+        </g>
+      </defs>
+
+      <!-- shared background: streaks, floor -->
+      <g id="streaks"></g>
+      <rect x="-300" y="1290" width="1680" height="900" fill="#0f0f0f"/>
+      <rect x="-300" y="1290" width="1680" height="3" fill="url(#groundFade)"/>
+
+      <g id="S1"></g><g id="S2"></g><g id="S3"></g><g id="S4"></g><g id="S5"></g>
+      <g id="dustLayer"></g>
+    </svg>
+  </div>
+
+  <div id="tag">CASE FILE 001</div>
+  <div class="head" id="head"></div>
+  <div id="cap"></div>
+  <div id="note"></div>
+  <div id="flash"></div>
+  <div id="fade"></div>
+  <div id="vignette"></div>
+  <canvas id="grain" width="1208" height="2048"></canvas>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const prog=(t,s,e)=>clamp((t-s)/(e-s));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const easeOut=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const $=id=>document.getElementById(id);
+const el=(tag,attrs,parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e;};
+const txt=(parent,s,attrs)=>{const e=el('text',Object.assign({'font-family':'Inter','font-weight':800},attrs),parent);e.textContent=s;return e;};
+const popS=p=>p>0?back(p):0.001;
+const money=v=>'$'+Math.round(v).toLocaleString('en-US');
+const kfmt=v=>'$'+Math.round(v/1000)+'K';
+let seed=7; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+
+/* ---------- character (channel pawn) ---------- */
+function buildChar(parent, kind, dir){
+  const color=kind==='owner'?'#e0b860':'#9fb4c8', liquid=kind==='owner'?'liqGold':'liqSteel';
+  const root=el('g',{},parent);
+  const glow=el('ellipse',{cx:0,cy:-120,rx:240,ry:260,fill:kind==='owner'?'url(#glowGold)':'url(#glowSteel)'},root);
+  el('ellipse',{cx:0,cy:3,rx:72,ry:10,fill:'#000','fill-opacity':.6},root);
+  const rig=el('g',{},root);
+  el('rect',{x:-50,y:-18,width:100,height:18,rx:4,fill:color,stroke:'#f1ece3','stroke-width':3},rig);
+  el('path',{d:'M-20,-210 L-36,-18 H36 L20,-210 Z',fill:'#141414'},rig);
+  const liq=el('rect',{x:-40,y:-18,width:80,height:0,fill:`url(#${liquid})`,'clip-path':'url(#bodyClip)'},rig);
+  const liqTop=el('line',{x1:-36,x2:36,stroke:'#f6ecd2','stroke-opacity':.7,'stroke-width':2,'clip-path':'url(#bodyClip)'},rig);
+  el('path',{d:'M-20,-210 L-36,-18 H36 L20,-210 Z',fill:'none',stroke:'#f1ece3','stroke-width':4,'stroke-linejoin':'round'},rig);
+  if(kind==='owner') el('path',{d:'M-6,-210 L0,-150 L6,-210 Z',fill:'#e0b860'},rig);
+  const armL=el('line',{stroke:'#f1ece3','stroke-width':4,'stroke-linecap':'round'},rig);
+  const armR=el('line',{stroke:'#f1ece3','stroke-width':4,'stroke-linecap':'round'},rig);
+  el('rect',{x:-30,y:-222,width:60,height:12,rx:3,fill:'#f1ece3'},rig);
+  const head=el('g',{},rig);
+  el('rect',{x:-6,y:-234,width:12,height:14,fill:'#f1ece3'},head);
+  el('circle',{cx:0,cy:-272,r:38,fill:'#f1ece3'},head);
+  if(kind==='renter') el('path',{d:'M-38,-286 Q-36,-314 0,-314 Q34,-314 38,-288 Z M30,-292 H62',fill:'#f1ece3',stroke:'#f1ece3','stroke-width':5,'stroke-linecap':'round'},head);
+  const pupil=el('ellipse',{cx:dir*7,cy:-272,rx:20,ry:20,fill:'#0d0d0d'},head);
+  return {root,rig,liq,liqTop,armL,armR,head,pupil,dir,glow};
+}
+function pose(c,x,y,t,o){
+  o=Object.assign({level:.3,squash:1,sag:0,hop:0,swing:6,lift:0,look:1,blink:1,glow:1,scale:1,walk:0},o);
+  const ph=x*0.013;
+  const breathe=1+0.014*Math.sin(t*2*Math.PI*0.8+ph);
+  const sway=1.4*Math.sin(t*2*Math.PI*0.45+ph)+o.walk*3*Math.sin(t*14);
+  c.root.setAttribute('transform',`translate(${x},${y}) scale(${o.scale})`);
+  c.glow.setAttribute('opacity',o.glow);
+  const bounce=o.walk*Math.abs(Math.sin(t*14))*10;
+  c.rig.setAttribute('transform',`translate(0,${-o.hop-bounce}) rotate(${sway*(1-o.sag)}) scale(${1+(1-o.squash)*0.6},${breathe*o.squash})`);
+  const h=192*o.level, ly=-18-h;
+  c.liq.setAttribute('y',ly); c.liq.setAttribute('height',h);
+  c.liqTop.setAttribute('y1',ly+3*Math.sin(t*6)); c.liqTop.setAttribute('y2',ly-3*Math.sin(t*6));
+  const sw=(o.swing+o.walk*22)*Math.sin(t*2*Math.PI*(0.7+o.walk*1.5)+ph);
+  const hy=-110+o.sag*40-o.lift;
+  c.armL.setAttribute('x1',-22);c.armL.setAttribute('y1',-200);c.armL.setAttribute('x2',-50-sw-o.lift*.6);c.armL.setAttribute('y2',hy);
+  c.armR.setAttribute('x1',22);c.armR.setAttribute('y1',-200);c.armR.setAttribute('x2',50-sw+o.lift*.6);c.armR.setAttribute('y2',hy);
+  c.head.setAttribute('transform',`translate(0,${o.sag*14+2*Math.sin(t*2*Math.PI*0.8+ph)})`);
+  c.pupil.setAttribute('cx',c.dir*7*o.look);c.pupil.setAttribute('cy',-272+o.sag*6);c.pupil.setAttribute('ry',20*o.blink);
+}
+const blink=(t,times)=>{for(const b of times){const p=(t-b)/0.14;if(p>=0&&p<=1)return 0.12+0.88*Math.abs(1-2*p);}return 1;};
+
+/* ---------- reusable icons ---------- */
+function card(parent,w,h,label,color,cls){
+  const g=el('g',{},parent);
+  const box=el('g',{class:cls||''},g);
+  el('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:14,fill:'#151515',stroke:color,'stroke-width':2.5},box);
+  txt(g,label,{x:-w/2+24,y:-h/2+38,'font-size':20,'letter-spacing':5,fill:'#8b877f'});
+  const val=txt(g,'',{x:w/2-24,y:-h/2+40,'text-anchor':'end','font-size':34,fill:color,'font-family':'Inter Display'});
+  return {g,val};
+}
+function coin(parent,r=26){
+  const g=el('g',{class:'glowG'},parent);
+  el('circle',{r,fill:'#141414',stroke:'#e0b860','stroke-width':4},g);
+  el('circle',{r:r*.72,fill:'none',stroke:'#e0b860','stroke-width':2,'stroke-opacity':.6},g);
+  txt(g,'$',{y:r*.38,'text-anchor':'middle','font-size':r*1.05,fill:'#e0b860'});
+  return g;
+}
+function flowLine(parent,d,color){ return el('path',{d,fill:'none',stroke:color,'stroke-width':3,'stroke-dasharray':'4 14','stroke-linecap':'round',opacity:0},parent); }
+function rings(parent,cx,cy,color){ const rs=[];for(let i=0;i<3;i++)rs.push(el('ellipse',{cx,cy,rx:10,ry:3,fill:'none',stroke:color,'stroke-width':2.5,opacity:0},parent));return rs; }
+function animRings(rs,t,s,big=1){ rs.forEach((r,i)=>{const p=((t-s)/1.6+i/3)%1; const on=t>=s; r.setAttribute('rx',(60+220*p)*big); r.setAttribute('ry',(16+60*p)*big); r.setAttribute('opacity',on?(1-p)*.6:0);}); }
+function beam(parent,x,top,w1,w2,bottom){ return el('polygon',{points:`${x-w1},${top} ${x+w1},${top} ${x+w2},${bottom} ${x-w2},${bottom}`,fill:'url(#beam)'},parent); }
+
+/* ---------- shared: streaks + dust ---------- */
+const streaks=[]; for(let i=0;i<4;i++) streaks.push(el('line',{stroke:'#ddd7cd','stroke-width':2+i%2,'stroke-opacity':.05+.02*(i%2)},$('streaks')));
+const dust=[]; for(let i=0;i<46;i++){ const r=2+rnd()*5; dust.push({e:el('circle',{r:r*2.4,fill:'url(#dust)'},$('dustLayer')),x:rnd()*1080,y:300+rnd()*1500,s:10+rnd()*30,ph:rnd()*6,o:.25+rnd()*.5}); }
+
+/* ===== S1: hook, the street ===== */
+const S1=$('S1');
+el('ellipse',{cx:300,cy:1150,rx:330,ry:330,fill:'url(#glowSteel)',id:'s1gl'},S1);
+el('ellipse',{cx:780,cy:1150,rx:330,ry:330,fill:'url(#glowGold)',id:'s1gr'},S1);
+const s1h=el('g',{opacity:.75},S1);
+el('use',{href:'#house',transform:'translate(300,1200)'},s1h); el('use',{href:'#house',transform:'translate(780,1200)'},s1h);
+el('line',{x1:40,y1:1200,x2:1040,y2:1200,stroke:'#bdb7ad','stroke-opacity':.35,'stroke-width':2.5},s1h);
+function pill(parent,label,color,w){const g=el('g',{},parent);el('rect',{x:-w/2,y:-26,width:w,height:52,rx:26,fill:'none',stroke:color,'stroke-width':2},g);txt(g,label,{y:11,'text-anchor':'middle','font-size':28,'letter-spacing':7,fill:color});return g;}
+const s1lL=pill(S1,'RENT','#9fb4c8',164), s1lR=pill(S1,'OWNER','#e0b860',196);
+const s1L=buildChar(S1,'renter',1), s1R=buildChar(S1,'owner',-1);
+const s1debt=el('use',{href:'#debtIcon'},S1);
+const s1coins=[0,1,2].map(()=>coin(S1));
+
+/* ===== S2: the renter ===== */
+const S2=$('S2');
+beam(S2,320,-40,70,230,1290);
+el('ellipse',{cx:320,cy:960,rx:420,ry:420,fill:'url(#glowSteel)'},S2);
+// apartment window with skyline
+const win=el('g',{opacity:.8},S2);
+el('rect',{x:110,y:640,width:420,height:420,rx:6,fill:'#141414',stroke:'#bdb7ad','stroke-width':3},win);
+[[140,900,60,160],[210,860,50,200],[270,930,70,130],[350,830,55,230],[415,890,80,170]].forEach(([x,y,w,h])=>el('rect',{x,y,width:w,height:h,fill:'none',stroke:'#5d5a54','stroke-width':2.5},win));
+el('path',{d:'M320,640 V1060 M110,850 H530',stroke:'#bdb7ad','stroke-width':3},win);
+el('circle',{cx:470,cy:700,r:18,fill:'none',stroke:'#e0b860','stroke-width':2.5,class:'glowG'},win);
+const s2rings=rings(S2,320,1290,'#9fb4c8');
+const s2char=buildChar(S2,'renter',1);
+const rentCard=card(S2,380,110,'RENT','#9fb4c8','glowS');
+const rentLine=flowLine(S2,'M370,1000 C520,960 560,900 600,880','#9fb4c8');
+const idx=card(S2,380,300,'S&P 500','#e0b860','glowG');
+const chartPts=[]; for(let i=0;i<=24;i++){const x=-160+i*320/24; const y=90-i*5.6-14*Math.sin(i*1.3)-(i>14?(i-14)*2.2:0); chartPts.push([x,y]);}
+const chartD='M'+chartPts.map(p=>p.join(',')).join(' L');
+const chartArea=el('path',{d:chartD+` L160,110 L-160,110 Z`,fill:'url(#chartFill)',opacity:0},idx.g);
+const chartLine=el('path',{d:chartD,fill:'none',stroke:'#e0b860','stroke-width':4,'stroke-linejoin':'round',pathLength:1,'stroke-dasharray':'1 1',class:'glowG'},idx.g);
+const chartDot=el('circle',{r:7,fill:'#f3dca0',class:'glowG'},idx.g);
+const idxLine=flowLine(S2,'M380,1080 C500,1150 540,1220 580,1220','#e0b860');
+const s2coins=[0,1,2,3].map(()=>coin(S2,16));
+
+/* ===== S3: the owner ===== */
+const S3=$('S3');
+el('ellipse',{cx:300,cy:1000,rx:420,ry:420,fill:'url(#glowGold)'},S3);
+beam(S3,300,-40,70,230,1290);
+el('use',{href:'#house',transform:'translate(300,1200) scale(.95)',opacity:.7},S3);
+const s3rings=rings(S3,300,1290,'#e0b860');
+const s3char=buildChar(S3,'owner',1);
+const bills=[['MORTGAGE',2275],['PROPERTY TAX',367],['INSURANCE',150],['REPAIRS',333],['PMI',150]].map(([l,v],i)=>{
+  const c=card(S3,400,88,l,'#bdb7ad'); c.v=v; c.i=i;
+  c.line=flowLine(S3,`M340,${1010} C520,${1010} 520,${640+i*104} 600,${640+i*104}`,'#e0b860'); return c;});
+const totalCard=card(S3,400,100,'EVERY MONTH','#c4473f','glowR');
+const keysG=el('g',{},S3); // keys icon: down payment
+el('circle',{cx:0,cy:0,r:20,fill:'none',stroke:'#e0b860','stroke-width':4},keysG);
+el('path',{d:'M20,0 H70 M52,0 V14 M64,0 V12',stroke:'#e0b860','stroke-width':4,fill:'none','stroke-linecap':'round'},keysG);
+keysG.setAttribute('class','glowG');
+
+/* ===== S4: year 4, the roof ===== */
+const S4=$('S4');
+const s4glow=el('ellipse',{cx:540,cy:760,rx:420,ry:360,fill:'url(#glowRed)',opacity:0},S4);
+const rain=[]; for(let i=0;i<60;i++) rain.push({e:el('line',{stroke:'#9fb4c8','stroke-opacity':.25+rnd()*.25,'stroke-width':2,'stroke-linecap':'round'},S4),x:rnd()*1300-100,y:rnd()*1900,s:900+rnd()*500,l:30+rnd()*40});
+el('use',{href:'#house',transform:'translate(540,1200) scale(1.3)'},S4);
+const crack=el('path',{d:'M455,770 L495,820 L470,860 L520,905 L500,950 L545,1000',fill:'none',stroke:'#c4473f','stroke-width':6,'stroke-linejoin':'round','stroke-linecap':'round',pathLength:1,'stroke-dasharray':'1 1',class:'glowR'},S4);
+const drips=[0,1,2].map(i=>el('circle',{r:5,fill:'#9fb4c8',opacity:.7},S4));
+const roofTag=el('g',{class:'glowR'},S4);
+el('rect',{x:-130,y:-40,width:260,height:80,rx:40,fill:'#141414',stroke:'#c4473f','stroke-width':3},roofTag);
+txt(roofTag,'$12,000',{y:14,'text-anchor':'middle','font-size':42,fill:'#c4473f','font-family':'Inter Display'});
+const s4char=buildChar(S4,'owner',-1);
+const ccard=el('g',{class:'glowR'},S4);
+el('rect',{x:-70,y:-45,width:140,height:90,rx:12,fill:'#141414',stroke:'#c4473f','stroke-width':4},ccard);
+el('rect',{x:-70,y:-22,width:140,height:16,fill:'#c4473f'},ccard);
+el('rect',{x:-50,y:12,width:40,height:12,rx:3,fill:'none',stroke:'#c4473f','stroke-width':2.5},ccard);
+const s4debt=el('use',{href:'#debtIcon'},S4);
+const s4rings=rings(S4,540,1290,'#c4473f');
+
+/* ===== S5: the result ===== */
+const S5=$('S5');
+const s5gl=el('ellipse',{cx:300,cy:1100,rx:340,ry:380,fill:'url(#glowSteel)'},S5);
+const s5gr=el('ellipse',{cx:780,cy:1100,rx:340,ry:380,fill:'url(#glowGold)'},S5);
+beam(S5,300,-40,60,200,1290); beam(S5,780,-40,60,200,1290);
+el('line',{x1:540,y1:700,x2:540,y2:1290,stroke:'#ddd7cd','stroke-opacity':.12,'stroke-width':2,'stroke-dasharray':'6 10'},S5);
+const s5L=buildChar(S5,'renter',1), s5R=buildChar(S5,'owner',-1);
+const resL=card(S5,330,250,'STOCKS','#9fb4c8','glowS'), resR=card(S5,330,250,'HOUSE','#e0b860','glowG');
+const miniChart=el('path',{d:'M-120,80 L-80,60 L-40,66 L0,30 L40,38 L80,0 L120,-20',fill:'none',stroke:'#9fb4c8','stroke-width':4,'stroke-linejoin':'round',pathLength:1,'stroke-dasharray':'1 1'},resL.g);
+const miniHouse=el('use',{href:'#house',transform:'translate(0,95) scale(.32)'},resR.g);
+const yearPill=el('g',{},S5); el('rect',{x:-95,y:-28,width:190,height:56,rx:28,fill:'#141414',stroke:'#4b4537','stroke-width':2},yearPill);
+const yearTxt=txt(yearPill,'YEAR 10',{y:11,'text-anchor':'middle','font-size':26,'letter-spacing':6,fill:'#ddd7cd'});
+const s5ringsL=rings(S5,300,1290,'#9fb4c8'), s5ringsR=rings(S5,780,1290,'#e0b860');
+
+/* ---------- text beats ---------- */
+const HEAD=[
+  [0,1.7,'THE OWNER<br>IS <span class="red">BROKE.</span>'],
+  [1.7,3.6,'THE RENTER<br><span class="gold">ISN\'T.</span>'],
+  [3.6,6,'SAME HOUSE.<br>SAME <span class="gold">STREET.</span>'],
+  [6,10.2,'THE <span class="steel">RENTER.</span>'],
+  [10.2,15.5,'HE KEEPS THE<br><span class="gold">DIFFERENCE.</span>'],
+  [15.5,19.2,'THE <span class="gold">OWNER.</span>'],
+  [19.2,25,'SAME HOUSE.<br><span class="red">$3,275</span> A MONTH.'],
+  [25,28,'YEAR <span class="red">4.</span>'],
+  [28,31.5,'THE ROOF<br><span class="red">BREAKS.</span>'],
+  [31.5,35.8,'10 YEARS<br><span class="gold">LATER.</span>'],
+  [35.8,40,'ALMOST<br>A <span class="gold">TIE.</span>'],
+  [40,43.6,'STAY<br><span class="gold">20</span> YEARS?'],
+  [43.6,47,'JUST DON\'T<br>BUY <span class="red">BROKE.</span>'],
+];
+const CAP=[
+  [6.5,10.2,'<b>$2,200</b> RENT. THE LANDLORD FIXES THE ROOF.'],
+  [10.4,15.5,'THE OTHER <b>$1,055</b> A MONTH GOES INTO AN <span class="gold">INDEX FUND.</span>'],
+  [15.8,19.2,'HE PUT <b>$52,000</b> DOWN TO GET THE KEYS.'],
+  [19.4,25,'<b>$1,055</b> MORE THAN RENT. EVERY MONTH.'],
+  [25.4,31.5,'NO CASH LEFT. <b>IT GOES ON A CARD.</b>'],
+  [32,35.8,'<b>$234K</b> IN STOCKS. <b>$225K</b> IN THE HOUSE.'],
+  [36,40,'BUT ONLY ONE COULD <span class="gold">TOUCH</span> HIS MONEY.'],
+  [40.3,43.6,'THE OWNER USUALLY <b>WINS.</b> HIS PAYMENT STAYS. RENT KEEPS GOING UP.'],
+  [43.9,47,'RENT OR OWN? <span class="gold">TELL ME BELOW.</span>'],
+];
+const NOTE=[
+  [6,15.5,'$400K HOME · RENT $2,200 · 7% STOCK RETURN · 3.5% GROWTH'],
+  [15.5,25,'10% DOWN + 3% CLOSING · 6.5% 30-YEAR LOAN · 1% REPAIRS'],
+  [32,47,'STOCKS AFTER 15% TAX ON GAINS · HOUSE AFTER 6% SELLING COSTS'],
+];
+function beatText(id,list,t,big){
+  const n=$(id); let cur=null; for(const b of list) if(t>=b[0]&&t<b[1]) cur=b;
+  if(!cur){n.style.opacity=0;return;}
+  if(n.dataset.k!==String(cur[0])){n.innerHTML=cur[2];n.dataset.k=cur[0];}
+  const first=cur[0]===0, a=first?1:prog(t,cur[0],cur[0]+0.22), b=prog(t,cur[1]-0.15,cur[1]);
+  n.style.opacity=a*(1-b);
+  n.style.filter=`blur(${(1-a)*10+b*10}px)`;
+  n.style.transform=`translateY(${(1-easeOut(a))*(big?24:14)-b*12}px) scale(${first?1.03-0.03*easeOut(prog(t,0,0.3)):1})`;
+}
+
+/* ---------- camera: [time, x, y, zoom, rot] (cuts = two keys 1ms apart) ---------- */
+const CAM=[[0,0,0,1,0],[1.6,-30,0,1.04,-.3],[2.25,40,-10,1.08,.3],[3.6,-20,0,1.06,-.2],[6,0,-20,1.12,0],
+  [6.001,60,40,1.18,0],[10.2,30,0,1.06,.2],[15.5,0,-20,1.0,-.2],
+  [15.501,80,30,1.2,0],[19.2,20,0,1.04,0],[25,0,-10,1.0,.2],
+  [25.001,0,60,1.22,0],[28,0,0,1.05,0],[31.5,0,-10,1.1,0],
+  [31.501,0,0,1.0,0],[40,0,-20,1.06,0],[43.6,0,-10,1.04,0],[47,0,-30,1.12,0]];
+const SHAKES=[2.35,26.0,29.75];
+function cam(t){
+  let i=0; while(i<CAM.length-2&&t>CAM[i+1][0])i++;
+  const a=CAM[i],b=CAM[i+1],p=ease(prog(t,a[0],b[0])); const v=a.map((x,k)=>x+(b[k]-x)*p);
+  let sh=0; for(const s0 of SHAKES){const s=prog(t,s0,s0+.28); if(s>0&&s<1) sh+=(1-s)*12*Math.sin(s*60);}
+  return {x:v[1]+sh,y:v[2]+sh*.5,z:v[3],r:v[4]};
+}
+const SCENES=[['S1',0,6],['S2',6,15.5],['S3',15.5,25],['S4',25,31.5],['S5',31.5,47]];
+
+/* ---------- grain ---------- */
+const gctx=$('grain').getContext('2d'); const gimg=gctx.createImageData(1208,2048);
+for(let i=0;i<gimg.data.length;i+=4){const v=Math.random()*255;gimg.data[i]=gimg.data[i+1]=gimg.data[i+2]=v;gimg.data[i+3]=255;}
+gctx.putImageData(gimg,0,0);
+
+window.DURATION=47;
+window.render=function(t){
+  const c=cam(t);
+  $('world').style.transform=`translate(${c.x}px,${c.y}px) scale(${c.z}) rotate(${c.r}deg)`;
+  const f=Math.floor(t*30); $('grain').style.transform=`translate(${(f*37)%64-32}px,${(f*53)%64-32}px)`;
+  let fadeV=0;
+  for(const [id,s,e] of SCENES){ const on=t>=s&&t<e; $(id).setAttribute('display',on?'inline':'none'); if(on&&s>0) fadeV=Math.max(fadeV,1-prog(t,s,s+.3)); }
+  $('fade').style.opacity=fadeV*.9;
+  beatText('head',HEAD,t,true); beatText('cap',CAP,t,false); beatText('note',NOTE,t,false);
+
+  // streaks + dust
+  streaks.forEach((s,i)=>{const o=((t*18+i*300)%1400)-200; s.setAttribute('x1',-100+o*.2);s.setAttribute('y1',900+i*160+o*.05);s.setAttribute('x2',1180+o*.2);s.setAttribute('y2',760+i*160-o*.05);});
+  dust.forEach(d=>{const y=((d.y-t*d.s)%1600+1600)%1600+250; d.e.setAttribute('cx',d.x+14*Math.sin(t*.7+d.ph)); d.e.setAttribute('cy',y); d.e.setAttribute('opacity',d.o*(.5+.5*Math.sin(t*2+d.ph)));});
+
+  if(t<6){ // ===== S1
+    const g=ease(prog(t,1.8,3.2)); $('s1gr').setAttribute('opacity',1-g*.85); $('s1gl').setAttribute('opacity',.25+g*.75);
+    s1lL.setAttribute('transform',`translate(300,${735+5*Math.sin(t*2.6)})`); s1lR.setAttribute('transform',`translate(780,${735+5*Math.sin(t*2.6+1.5)})`);
+    const dIn=prog(t,1.75,2.0), dDrop=prog(t,2.05,2.35), land=prog(t,2.35,2.7), hit=dDrop>=1;
+    const dy=-470+150*dDrop*dDrop+8*Math.sin(t*4)*(1-dDrop);
+    s1debt.setAttribute('transform',`translate(780,${1290+dy+(hit?6*easeOut(land):0)}) scale(${popS(dIn)})`);
+    pose(s1R,780,1290,t,{level:.62-.47*ease(prog(t,2.4,5.5)),squash:hit?.88+.08*easeOut(land):1,sag:hit?easeOut(land):0,swing:hit?1:6,look:hit?0:1,blink:blink(t,[.9,4.6]),glow:0});
+    const hp=prog(t,2.9,3.35), hop=hp>0&&hp<1?Math.sin(hp*Math.PI)*28:0;
+    pose(s1L,300,1290,t,{level:.2+.5*ease(prog(t,2.6,5.8)),hop,lift:hop*.8,blink:blink(t,[1.3,3.9]),glow:0});
+    s1coins.forEach((cg,i)=>{const p=prog(t,2.75+i*.18,3.05+i*.18); cg.setAttribute('transform',`translate(${240+i*60},${880+6*Math.sin(t*3+i)}) scale(${popS(p)})`);});
+  }
+  else if(t<15.5){ // ===== S2 renter
+    animRings(s2rings,t,6.0);
+    pose(s2char,320,1290,t,{level:.2+.45*ease(prog(t,10.5,15)),blink:blink(t,[7.4,11.2,14.1]),walk:t<6.9?1-prog(t,6,6.9):0,lift:t>12.6&&t<13.4?Math.sin(prog(t,12.6,13.4)*Math.PI)*30:0});
+    const rp=prog(t,6.6,6.95); rentCard.g.setAttribute('transform',`translate(790,${860+4*Math.sin(t*2)}) scale(${popS(rp)})`);
+    rentCard.val.textContent=money(2200*easeOut(prog(t,6.7,7.6)));
+    rentLine.setAttribute('opacity',rp*.8); rentLine.setAttribute('stroke-dashoffset',-t*50);
+    const ip=prog(t,10.4,10.8); idx.g.setAttribute('transform',`translate(790,${1150+4*Math.sin(t*2+1)}) scale(${popS(ip)})`);
+    idx.val.textContent='+'+money(1055*easeOut(prog(t,10.5,11.4)))+'/MO';
+    const cp=ease(prog(t,10.9,14.8)); chartLine.setAttribute('stroke-dashoffset',1-cp); chartArea.setAttribute('opacity',cp);
+    const pi=Math.min(24,Math.floor(cp*24)), fr=cp*24-pi, pA=chartPts[pi], pB=chartPts[Math.min(24,pi+1)];
+    chartDot.setAttribute('cx',pA[0]+(pB[0]-pA[0])*fr); chartDot.setAttribute('cy',pA[1]+(pB[1]-pA[1])*fr); chartDot.setAttribute('opacity',cp>0?1:0);
+    idxLine.setAttribute('opacity',ip*.9); idxLine.setAttribute('stroke-dashoffset',-t*60);
+    s2coins.forEach((cg,i)=>{const p=((t-11+i*.35)/1.4); const on=t>11&&p>0; const q=on?p%1:0;
+      const x=380+200*q, y=1080+140*Math.sin(q*Math.PI/2)-60*Math.sin(q*Math.PI); cg.setAttribute('transform',`translate(${x},${y}) scale(${on?1-q*.4:0.001})`); cg.setAttribute('opacity',on?1-q*q:0);});
+  }
+  else if(t<25){ // ===== S3 owner
+    animRings(s3rings,t,15.5);
+    const spent=bills.reduce((a,b)=>a+(t>19.4+b.i*.55?1:0),0);
+    pose(s3char,300,1290,t,{level:.62-.09*spent-.05*ease(prog(t,22.4,24.5)),blink:blink(t,[16.8,20.1,23.6]),walk:t<16.4?1-prog(t,15.5,16.4):0,sag:.3*ease(prog(t,22.2,23.2)),look:1});
+    const kp=prog(t,16,16.35); keysG.setAttribute('transform',`translate(${265+8*Math.sin(t*3)},${880}) rotate(${-20+10*Math.sin(t*2)}) scale(${popS(kp)*(1-prog(t,18.8,19.2))+0.001})`);
+    bills.forEach(b=>{const p=prog(t,19.4+b.i*.55,19.75+b.i*.55); const y=640+b.i*104;
+      b.g.setAttribute('transform',`translate(${800+(1-easeOut(p))*200},${y}) scale(${p>0?1:0.001})`); b.g.setAttribute('opacity',p);
+      b.val.textContent=money(b.v*easeOut(prog(t,19.5+b.i*.55,20.2+b.i*.55)));
+      b.line.setAttribute('opacity',p*.7*(1-prog(t,23.8,24.4))); b.line.setAttribute('stroke-dashoffset',-t*50);});
+    const tp=prog(t,22.3,22.65); totalCard.g.setAttribute('transform',`translate(800,${1180+4*Math.sin(t*2)}) scale(${popS(tp)})`);
+    totalCard.val.textContent=money(3275*easeOut(prog(t,22.35,23.2)));
+  }
+  else if(t<31.5){ // ===== S4 roof
+    rain.forEach(r=>{const y=((r.y+t*r.s)%2000)-50, x=r.x-(y*.18); r.e.setAttribute('x1',x);r.e.setAttribute('y1',y);r.e.setAttribute('x2',x-r.l*.18);r.e.setAttribute('y2',y+r.l);});
+    $('flash').style.opacity=Math.max(0,.55*(1-prog(t,26,26.35)))*(t>=26?1:0)+Math.max(0,.25*(1-prog(t,26.5,26.7)))*(t>=26.5?1:0);
+    const cr=ease(prog(t,26,26.9)); crack.setAttribute('stroke-dashoffset',1-cr); s4glow.setAttribute('opacity',cr);
+    drips.forEach((d,i)=>{const p=((t-27+i*.4)%1.2)/1.2; const on=t>27; d.setAttribute('cx',505+i*12); d.setAttribute('cy',1000+p*260); d.setAttribute('opacity',on?.7*(1-p):0);});
+    const tg=prog(t,26.7,27.05); roofTag.setAttribute('transform',`translate(${720},${640+6*Math.sin(t*3)}) scale(${popS(tg)})`);
+    const cp=prog(t,28.3,28.6); ccard.setAttribute('transform',`translate(${720},${1060+5*Math.sin(t*3)}) rotate(${-8+4*Math.sin(t*2)}) scale(${popS(cp)})`);
+    const dIn=prog(t,29.1,29.35), dDrop=prog(t,29.45,29.75), land=prog(t,29.75,30.1), hit=dDrop>=1;
+    s4debt.setAttribute('transform',`translate(540,${1290-470+150*dDrop*dDrop+(hit?6*easeOut(land):0)}) scale(${popS(dIn)})`);
+    animRings(s4rings,t,hit?29.75:99);
+    pose(s4char,540,1290,t,{level:.18-.12*ease(prog(t,28.4,30.5)),squash:hit?.88+.08*easeOut(land):1,sag:hit?easeOut(land):.15,look:t<27.5?-1:1,blink:blink(t,[25.6,27.9]),lift:t>26&&t<26.6?Math.sin(prog(t,26,26.6)*Math.PI)*40:0,glow:.4});
+  }
+  else { // ===== S5 result
+    const y20=t>=40, swap=ease(prog(t,40,41.2));
+    s5gl.setAttribute('opacity',1-swap*.7); s5gr.setAttribute('opacity',.45+swap*.55);
+    animRings(s5ringsL,t,y20?99:31.6); animRings(s5ringsR,t,y20?40:99);
+    if(t>=43.6){animRings(s5ringsL,t,43.6,.8);}
+    const hopR=y20?(prog(t,40.6,41.1)>0&&prog(t,40.6,41.1)<1?Math.sin(prog(t,40.6,41.1)*Math.PI)*30:0):0;
+    const hopL=prog(t,33,33.45)>0&&prog(t,33,33.45)<1?Math.sin(prog(t,33,33.45)*Math.PI)*24:0;
+    pose(s5L,300,1290,t,{level:.66,hop:hopL,lift:hopL*.8,blink:blink(t,[34.2,38.5,44.4]),glow:0});
+    pose(s5R,780,1290,t,{level:.18+.4*swap,hop:hopR,lift:hopR*.8,sag:.25*(1-swap),blink:blink(t,[36.1,42.3,45.7]),glow:0});
+    const pL=prog(t,31.9,32.25), pR=prog(t,32.15,32.5);
+    resL.g.setAttribute('transform',`translate(300,${830+5*Math.sin(t*2)}) scale(${popS(pL)})`);
+    resR.g.setAttribute('transform',`translate(780,${830+5*Math.sin(t*2+1)}) scale(${popS(pR)})`);
+    const a=easeOut(prog(t,32.1,33.4)), b=easeOut(prog(t,40.1,41.3));
+    resL.val.textContent=kfmt(234165*a+(450288-234165)*b); resR.val.textContent=kfmt(225191*a+(547766-225191)*b);
+    miniChart.setAttribute('stroke-dashoffset',1-easeOut(prog(t,32.2,33.6)));
+    const yp=prog(t,31.7,32.0); yearPill.setAttribute('transform',`translate(540,${620}) scale(${popS(yp)*(y20&&t<40.25?1-.3*Math.sin(prog(t,40,40.25)*Math.PI):1)})`);
+    yearTxt.textContent=y20?'YEAR 20':'YEAR 10';
+  }
+};
+window.render(0);
+</script>
+</body>
+</html>
