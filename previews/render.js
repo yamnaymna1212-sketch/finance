@@ -26,7 +26,7 @@ const os = require('os');
   }));
   await browser.close();
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(fps), '-i', path.join(dir, 'f%05d.png'),
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '18', '-movflags', '+faststart', out]);
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '26', '-preset', 'slow', '-movflags', '+faststart', out]);
   fs.rmSync(dir, { recursive: true, force: true });
   console.log('wrote', out, frames, 'frames');
 })();
