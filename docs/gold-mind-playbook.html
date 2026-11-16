@@ -1,0 +1,315 @@
+<title>The Gold Mind Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Inter:wght@500;800&display=swap">
+<style>
+/* Layout: one dark "case file" column, gold used only for emphasis — the brand's own palette, single deliberate look */
+:root{
+  --bg:#0B0B0C; --panel:#141416; --line:#2A2824; --fg:#ECE7DD; --muted:#9A948A;
+  --gold:#D9B45A; --gold-dim:#8C7438; --loss:#C8463B; --ok:#7FB37A;
+  --f-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-en:"Inter",system-ui,sans-serif;
+  --f-serif:"Cormorant Garamond",Georgia,serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ar);font-size:16px;line-height:1.85;margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-block:40px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);direction:ltr;text-align:right}
+h1{font-family:var(--f-en);font-weight:800;font-size:clamp(34px,7vw,60px);line-height:1.05;margin:.3em 0 .2em;direction:ltr;text-align:right;text-wrap:balance}
+h1 em{font-family:var(--f-serif);font-weight:600;color:var(--gold)}
+h2{font-size:26px;margin:2.4em 0 .5em;padding-top:1em;border-top:1px solid var(--line);text-wrap:balance}
+h2 .n{font-family:var(--f-mono);color:var(--gold);font-size:14px;display:block;letter-spacing:.1em}
+h3{font-size:18px;margin:1.6em 0 .4em;color:var(--gold)}
+p,li{max-width:68ch}
+.lead{color:var(--muted);font-size:18px}
+strong{color:var(--fg)} .g{color:var(--gold)} .r{color:var(--loss)} .m{color:var(--muted)}
+.en{direction:ltr;unicode-bidi:isolate;font-family:var(--f-en)}
+.tbl{overflow-x:auto;margin:1em 0;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+th{font-weight:500;color:var(--muted);background:var(--panel)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;direction:ltr;text-align:right}
+.verdict{background:var(--panel);border-right:3px solid var(--gold);padding:16px 18px;margin:1.2em 0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cols>div{min-width:0;background:var(--panel);padding:14px 16px;border-radius:6px}
+.cols h3{margin-top:0}
+@media (max-width:640px){.cols{grid-template-columns:1fr}}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:1em 0}
+.sw{border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:13px}
+.sw i{display:block;height:54px}
+.sw div{padding:6px 10px}
+.sw code{font-family:var(--f-mono);color:var(--muted);direction:ltr;display:block}
+.type-demo{background:var(--panel);padding:20px;border-radius:6px;direction:ltr;text-align:left}
+.type-demo .h{font-family:var(--f-en);font-weight:800;font-size:34px;letter-spacing:-.01em;line-height:1}
+.type-demo .s{font-family:var(--f-serif);font-style:italic;font-size:40px;color:var(--gold);line-height:1.1}
+.type-demo .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;color:var(--gold-dim)}
+.script{direction:ltr;text-align:left;font-family:var(--f-en);background:var(--panel);border-radius:6px;padding:4px 0;font-size:14.5px;line-height:1.6}
+.beat{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line)}
+.beat:last-child{border-bottom:0}
+.beat .t{font-family:var(--f-mono);color:var(--gold);font-size:12.5px;padding-top:2px}
+.beat .vo{font-weight:500}
+.beat .dir{color:var(--muted);font-size:13px;margin-top:3px}
+.beat .dir b{color:var(--gold-dim);font-weight:500}
+ul.tools{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ul.tools li{max-width:none;background:var(--panel);border-radius:6px;padding:10px 14px;display:grid;grid-template-columns:minmax(0,230px) 1fr;gap:12px}
+ul.tools code{font-family:var(--f-mono);font-size:13px;color:var(--gold);direction:ltr;text-align:left;word-break:break-all}
+@media (max-width:560px){ul.tools li{grid-template-columns:1fr}}
+.pill{font-family:var(--f-mono);font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line);color:var(--muted);margin-inline-start:6px;white-space:nowrap}
+.pill.w{border-color:var(--loss);color:var(--loss)}
+.pill.s{border-color:var(--gold-dim);color:var(--gold)}
+pre{direction:ltr;text-align:left;background:var(--panel);padding:14px;border-radius:6px;overflow-x:auto;font-family:var(--f-mono);font-size:13px;line-height:1.6}
+a{color:var(--gold)} a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+
+<div class="wrap" dir="rtl">
+
+<div class="label">Case File 000 · Channel Playbook</div>
+<h1>The Gold <em>Mind</em></h1>
+<p class="lead">تحليل الفيديوهين، هوية القناة الكاملة للجمهور الأمريكي، سكريبت ومخطط مونتاج جديد لنفس قصة Ronald Read بإيقاع أسرع، وأدوات GitHub والمهارات اللي توصلك لهذا المستوى.</p>
+
+<!-- ============ 1 ============ -->
+<h2><span class="n">01 / القياس</span>شنو قسته فعليًا في الفيديوهين</h2>
+<p>استخرجت الصوت وفرّغته بـ Whisper، وأخذت إطارًا كل ثانية، وقست كمية الحركة بين الإطارات (10 إطارات بالثانية).</p>
+<div class="tbl"><table>
+<tr><th></th><th>فيديو 1 (ذهبي/أسود)</th><th>فيديو 2 (أبيض/أسود)</th></tr>
+<tr><td>المدة والصيغة</td><td class="num">33.5s · 9:16 · 576×1024</td><td class="num">67.4s · 16:9 · 1024×576</td></tr>
+<tr><td>عدد الكلمات / سرعة الكلام</td><td class="num">83 words · ~159 wpm</td><td class="num">189 words · ~169 wpm</td></tr>
+<tr><td>عدد المشاهد البصرية المختلفة</td><td class="num">~11 (≈2.9s each)</td><td class="num">~30 (≈2.2s each)</td></tr>
+<tr><td>متوسط حركة البكسل</td><td class="num">2.23</td><td class="num">1.45</td></tr>
+<tr><td>آخر 3 ثواني</td><td class="num r">0.1 (frozen)</td><td class="num">1.3 (still moving)</td></tr>
+</table></div>
+<div class="verdict"><strong class="g">أهم نتيجة:</strong> فيديو 1 فيه حركة بكسل <strong>أكثر</strong> من فيديو 2. يعني الإحساس بأن فيديو 2 "أسرع وأحترف" ما جاء من سرعة القص. جاء من <strong>كثافة الأفكار البصرية</strong>: كل جملتين تقريبًا استعارة بصرية جديدة (رادار، منحنى جرس، بوصلة، جزر تقترب، باب "مستحيل" يتحول لدرج). فيديو 1 يحرّك عناصر صغيرة كثيرة داخل نفس اللقطة، فيبان كأنه سلايدات.</div>
+
+<!-- ============ 2 ============ -->
+<h2><span class="n">02 / تشريح</span>ليش فيديو 1 يبان عادي وممل</h2>
+<div class="cols">
+<div><h3>نقاط القوة</h3>
+<ul>
+<li>سكريبت ممتاز: قصة حقيقية، تناقض واضح (عامل نظافة ضد مدير وول ستريت)، رقم صادم، وخلاصة تنحفظ <span class="en">"Behavior beats brains"</span>.</li>
+<li>هوية لونية قوية ومميزة: أسود + ذهبي + أحمر للخسارة فقط.</li>
+<li>شخصية بسيطة متكررة (المصباح/البيدق) قابلة لتصبح ماسكوت.</li>
+<li>عنوان سلسلة <span class="en">CASE FILE 001</span>: فكرة ممتازة للتكرار والإدمان.</li>
+<li>ثنائية الخط (Sans عريض + Serif مائل) تعطي فخامة.</li>
+</ul></div>
+<div><h3>نقاط الضعف</h3>
+<ul>
+<li><strong>نفس التكوين في كل لقطة:</strong> خط أرض واحد، الشخصية في نفس المكان، العنوان فوق. العين تتعود بعد 5 ثواني.</li>
+<li><strong>الكاميرا ثابتة 100%.</strong> لا زوم، لا تتبع، لا انتقال.</li>
+<li><strong>3 طبقات نص تقول نفس الشي:</strong> عنوان + ترجمة سفلية + صوت. الترجمة صغيرة وباهتة وتقع في منطقة واجهة تيك توك/شورتس.</li>
+<li><strong>الشخصية صغيرة</strong> (~10% من الشاشة) والنصف العلوي فاضي.</li>
+<li><strong>تكرار العنوان كلمة بكلمة</strong> (SAVED. SAVED.) يحسس بالبطء.</li>
+<li><strong>النهاية متجمدة 3–4 ثواني</strong>: تقتل الإعادة (loop) اللي هي أهم إشارة في الشورتس.</li>
+<li>الهوك يكشف النهاية: "Janitors die rich" تعطي الجواب من الثانية 2، فما فيه سؤال مفتوح يبقيك.</li>
+<li>لا يوجد طبقة صوتية (SFX) واضحة تدعم كل حركة.</li>
+</ul></div>
+</div>
+
+<h3>شنو يسويه فيديو 2 صح (ونأخذه)</h3>
+<ul>
+<li><strong>استعارة بصرية لكل فكرة</strong>، والفكرة تتحول (morph) للفكرة اللي بعدها بدل القص.</li>
+<li><strong>إضاءة كأداة سرد:</strong> سبوت لايت، توهج حول الشخص المهم، الباقي يخفت.</li>
+<li><strong>أرقام تعد (counters)</strong>: <span class="en">$4,200 → $963,694</span>، <span class="en">1,000 KM → 3 KM</span>. العد يمسك العين.</li>
+<li><strong>واجهات بيانات صغيرة</strong> (رادار، بوصلة، منحنى) تعطي إحساس "ذكي".</li>
+<li><strong>مساحة سلبية كبيرة</strong> وعنصر واحد بطل في كل لقطة.</li>
+<li>ضعفه: السكريبت عام ونظري بدون قصة. <strong>سكريبتك أنت أقوى.</strong> الخلطة: قصة فيديو 1 + لغة فيديو 2 البصرية.</li>
+</ul>
+
+<!-- ============ 3 ============ -->
+<h2><span class="n">03 / السكريبت</span>تحليل سكريبت فيديو 1 وقالبه</h2>
+<div class="tbl"><table>
+<tr><th>الثانية</th><th>المرحلة</th><th>النص</th><th>تقييم</th></tr>
+<tr><td class="num">0–3</td><td>هوك تناقض</td><td class="en">Smart people go broke. Janitors die rich.</td><td>قوي، لكن يكشف النهاية</td></tr>
+<tr><td class="num">3–6</td><td>البطل</td><td class="en">This is Ronald Read. He pumped gas…</td><td>جيد</td></tr>
+<tr><td class="num">6–13</td><td>الخصم</td><td class="en">Wall Street executive… borrowed to live big</td><td>شخصية بلا اسم = أضعف مصداقية</td></tr>
+<tr><td class="num">13–21</td><td>نقطة التحول</td><td class="en">2008 the market crashed…</td><td>ممتاز</td></tr>
+<tr><td class="num">21–29</td><td>المكافأة</td><td class="en">He left eight million dollars…</td><td>ممتاز، رقم ملموس</td></tr>
+<tr><td class="num">29–31</td><td>الخلاصة</td><td class="en">Behavior beats brains</td><td>حلو، بس ما فيه loop أو دعوة للسلسلة</td></tr>
+</table></div>
+<p><strong>القالب القابل للتكرار (Case File Formula):</strong> تناقض صادم ← بطل غير متوقع ← خصم "ذكي" ← لحظة اختبار (أزمة) ← قرار واحد مختلف ← رقم النتيجة ← قاعدة من 3 كلمات ← جملة أخيرة تربط بأول جملة (loop).</p>
+<p class="m">ملاحظة أصالة: ثنائية Ronald Read / مدير Merrill Lynch مأخوذة من كتاب <span class="en">The Psychology of Money</span> لـ Morgan Housel ومستخدمة بكثرة. استعملها كحلقة أولى لكن ابنِ القناة على قصص أقل تداولًا (أرشيف الصحف، قضايا الإفلاس، تقارير SEC) وإلا بتكون نسخة من مئات القنوات.</p>
+
+<!-- ============ 4 ============ -->
+<h2><span class="n">04 / الهوية</span>هوية القناة الكاملة (جمهور أمريكي)</h2>
+<div class="tbl"><table>
+<tr><td style="width:150px">الاسم</td><td><span class="en">The Gold Mind</span> <span class="m">(تحقق إنه متاح على يوتيوب/تيك توك/إنستغرام والدومين قبل الاعتماد)</span></td></tr>
+<tr><td>الوعد</td><td class="en">True money stories that rewire how you think about wealth. Under 60 seconds.</td></tr>
+<tr><td>الشعار</td><td class="en">Behavior beats brains.</td></tr>
+<tr><td>الجمهور</td><td>أمريكيون 22–40، دخل متوسط، عندهم 401(k) أو بدأوا يستثمرون، يحبون Morgan Housel وAli Abdaal و"Dave Ramsey بدون صراخ". يكرهون الوعظ ويحبون القصة والرقم.</td></tr>
+<tr><td>الشخصية/النبرة</td><td>محقق هادئ يفتح ملف قضية. واثق، جاف، بدون مبالغة ولا "hustle". جمل قصيرة. لا ينصح، يعرض الدليل ويخلي المشاهد يستنتج.</td></tr>
+<tr><td>الماسكوت</td><td>"The Pawn": الشخصية الذهبية الحالية. الأبطال ذهبيون، الخصوم بيضاء/رمادية، الخسارة حمراء.</td></tr>
+<tr><td>الراوي</td><td>صوت أمريكي رجالي عميق هادئ، 150–165 كلمة/دقيقة. ElevenLabs (متصل في هذه الجلسة) أو صوتك الحقيقي = ميزة أصالة.</td></tr>
+</table></div>
+
+<h3>الألوان</h3>
+<div class="swatches">
+<div class="sw"><i style="background:#0B0B0C"></i><div>Vault Black<code>#0B0B0C</code></div></div>
+<div class="sw"><i style="background:#17171A"></i><div>Charcoal<code>#17171A</code></div></div>
+<div class="sw"><i style="background:#D9B45A"></i><div>Gold (البطل/الربح)<code>#D9B45A</code></div></div>
+<div class="sw"><i style="background:#ECE7DD"></i><div>Ivory (النص)<code>#ECE7DD</code></div></div>
+<div class="sw"><i style="background:#C8463B"></i><div>Loss Red (الخسارة فقط)<code>#C8463B</code></div></div>
+<div class="sw"><i style="background:#6E6A63"></i><div>Ash (الخلفية والكومبارس)<code>#6E6A63</code></div></div>
+</div>
+<p>قاعدة: الذهبي لا يتجاوز 10% من الشاشة. كل ما زاد، فقد قيمته.</p>
+
+<h3>الخطوط</h3>
+<div class="type-demo">
+<div class="k">CASE FILE 001 · THE PSYCHOLOGY OF MONEY</div>
+<div class="h">JANITORS DIE</div>
+<div class="s">rich.</div>
+</div>
+<ul>
+<li><strong>العناوين:</strong> <span class="en">Inter ExtraBold / Archivo Black</span>، كابيتال، 1–3 كلمات فقط.</li>
+<li><strong>الكلمة العاطفية:</strong> <span class="en">Cormorant Garamond Italic</span> بالذهبي (rich، waited، brains).</li>
+<li><strong>الأرقام والملصقات:</strong> <span class="en">IBM Plex Mono / JetBrains Mono</span> (عدادات، تواريخ، CASE FILE).</li>
+</ul>
+
+<h3>السلاسل (Content Pillars)</h3>
+<div class="tbl"><table>
+<tr><th>السلسلة</th><th>الفكرة</th><th>مثال عنوان</th></tr>
+<tr><td class="en">Case Files</td><td>قصة حقيقية شخصين ونهايتين</td><td class="en">The Janitor Who Beat Wall Street</td></tr>
+<tr><td class="en">Mind Traps</td><td>تحيز نفسي يكلفك فلوس</td><td class="en">Why $5 Feels Free But $500 Hurts</td></tr>
+<tr><td class="en">The Math</td><td>رقم واحد مرسوم بصريًا (compounding)</td><td class="en">$7 a Day for 40 Years</td></tr>
+<tr><td class="en">Rich vs. Broke</td><td>عادة واحدة بشخصيتين</td><td class="en">What They Do on Payday</td></tr>
+<tr><td class="en">Collapse Files</td><td>إفلاسات مشهورة (Enron، FTX، MC Hammer)</td><td class="en">How a $33M Star Went Broke</td></tr>
+</table></div>
+
+<h3>استراتيجية النشر</h3>
+<ul>
+<li>شورتس 35–50 ثانية، 5 بالأسبوع، على YouTube Shorts + TikTok + Reels بنفس الملف (9:16، 1080×1920، 60fps).</li>
+<li>فيديو طويل 8–12 دقيقة كل أسبوعين (16:9) يجمع 4–5 قصص بنفس الموضوع: هنا الدخل الحقيقي، لأن نيتش المال الأمريكي من أعلى نيتشات الـ RPM في الفيديو الطويل، والشورتس RPM منخفض.</li>
+<li>كل شورت ينتهي بـ "Case File 002 drops tomorrow" بصريًا مو بالصوت فقط.</li>
+<li>الصورة المصغرة للطويل: شخصيتان + رقم كبير ذهبي + كلمة واحدة.</li>
+</ul>
+
+<h3>الالتزام (مهم للسوق الأمريكي)</h3>
+<ul>
+<li>سياسة يوتيوب ضد المحتوى "غير الأصيل" والمكرر بالقوالب: لو كل الفيديوهات نفس القالب الآلي بصوت AI بدون قيمة مضافة، الربح ممكن ينرفض. التنويع في الاستعارات البصرية والبحث الحقيقي هو الحماية.</li>
+<li>جملة <span class="en">"Not financial advice. Stories for education."</span> في الوصف. لا وعود بعوائد.</li>
+<li>أي رابط أفلييت (وسطاء، تطبيقات) يحتاج إفصاح FTC واضح.</li>
+<li>تأكد من كل رقم وتاريخ قبل النشر وحط المصادر في الوصف. هذا يبني الثقة ويساعد الظهور في محركات البحث بالذكاء الاصطناعي.</li>
+</ul>
+
+<!-- ============ 5 ============ -->
+<h2><span class="n">05 / إعادة المونتاج</span>نفس القصة بإيقاع فيديو 2 أو أعلى</h2>
+<h3>قواعد الإيقاع الجديدة</h3>
+<div class="tbl"><table>
+<tr><th>العنصر</th><th>قبل</th><th>بعد</th></tr>
+<tr><td>طول اللقطة</td><td class="num">~2.9s</td><td class="num">0.8–1.6s</td></tr>
+<tr><td>شي يتغير على الشاشة</td><td>كل 1–2s</td><td>كل 0.5–0.7s (نص، أيقونة، كاميرا، ضوء)</td></tr>
+<tr><td>الكاميرا</td><td>ثابتة</td><td>push-in دائم 3–6% لكل لقطة، whip-pan بين الفصول، تتبع للشخصية</td></tr>
+<tr><td>الانتقالات</td><td>قص/تلاشي</td><td>match-cut وmorph: البيت يتحول لمنحنى، العملة تتحول لساعة رملية</td></tr>
+<tr><td>النص</td><td>عنوان + ترجمة + صوت</td><td>كابشن كلمة-بكلمة في المنتصف (بين 35% و65% من الارتفاع) + كلمة مفتاحية كبيرة فقط</td></tr>
+<tr><td>العمق</td><td>طبقة واحدة</td><td>3 طبقات: غبار/جزيئات ذهبية + الشخصية + توهج وفينيت أمامي</td></tr>
+<tr><td>الصوت</td><td>موسيقى + راوي</td><td>+ SFX لكل حركة: whoosh، tick للأرقام، coin chime، ختم stamp، bass drop عند 2008</td></tr>
+<tr><td>النهاية</td><td>3s متجمدة</td><td>آخر كلمة تقطع مباشرة لأول لقطة (loop مثالي)</td></tr>
+</table></div>
+
+<h3>سكريبت جديد ومخطط اللقطات (~40 ثانية، 9:16)</h3>
+<p class="m">الأسماء والأرقام مبنية على الروايات المنشورة عن القصة. راجعها مع مصدر قبل النشر.</p>
+<div class="script">
+<div class="beat"><div class="t">00.0–02.0</div><div><div class="vo">"One died with $8 million. One went bankrupt."</div><div class="dir"><b>Visual:</b> split screen، يسار البيدق الذهبي عداد يقفز إلى $8,000,000، يمين البيدق الأبيض ختم BANKRUPT أحمر. <b>Cam:</b> snap-zoom 110%→100%. <b>SFX:</b> cash tick + stamp.</div></div></div>
+<div class="beat"><div class="t">02.0–03.6</div><div><div class="vo">"Only one of them went to Harvard."</div><div class="dir"><b>Visual:</b> قبعة تخرج تطير وتنزل على الأبيض. <b>Cam:</b> whip-pan للأبيض. <b>Open loop:</b> المشاهد يتوقع الغلط.</div></div></div>
+<div class="beat"><div class="t">03.6–06.0</div><div><div class="vo">"This is Ronald Read. Vermont. Gas station attendant."</div><div class="dir"><b>Visual:</b> سبوت لايت ينزل، ملف CASE FILE 001 ينفتح بالخلف، صورة بورتريه بإطار ذهبي، مضخة بنزين ترسم نفسها بخط (line draw). <b>Cam:</b> push-in بطيء.</div></div></div>
+<div class="beat"><div class="t">06.0–07.6</div><div><div class="vo">"Then a janitor. For seventeen years."</div><div class="dir"><b>Visual:</b> المضخة تتحول (morph) لمكنسة، عداد سنوات 1→17 بخط mono. <b>SFX:</b> sweep.</div></div></div>
+<div class="beat"><div class="t">07.6–10.5</div><div><div class="vo">"This is a Wall Street executive. Harvard MBA. Big salary. Huge mansion."</div><div class="dir"><b>Visual:</b> whip-pan يمين، ناطحات سحاب تطلع من الأرض، كل كلمة = أيقونة تنط (cap، $، house) على إيقاع الكلمة. <b>Cam:</b> tilt-up مع المباني.</div></div></div>
+<div class="beat"><div class="t">10.5–12.5</div><div><div class="vo">"Most of it… borrowed."</div><div class="dir"><b>Visual:</b> البيت يتلون أحمر من الأسفل مثل مقياس ديون يمتلئ، كلمة <i>borrowed</i> بالسيريف الأحمر. <b>SFX:</b> low hum.</div></div></div>
+<div class="beat"><div class="t">12.5–15.5</div><div><div class="vo">"Ronald saved every dollar he could. And bought boring stocks."</div><div class="dir"><b>Visual:</b> عملات تسقط في حصالة، تتحول لأوراق أسهم تتكدس، أسماء أسهم وهمية تمر بشريط ticker. <b>SFX:</b> coin chime ×3.</div></div></div>
+<div class="beat"><div class="t">15.5–17.0</div><div><div class="vo">"Then came 2008."</div><div class="dir"><b>Visual:</b> سواد كامل 6 فريمات، ثم 2008 ضخم أبيض ينكسر أحمر. <b>Cam:</b> camera shake خفيف. <b>SFX:</b> bass drop + silence.</div></div></div>
+<div class="beat"><div class="t">17.0–19.5</div><div><div class="vo">"The executive lost everything."</div><div class="dir"><b>Visual:</b> المنحنى الأحمر ينزل ويصير "حبل" يسحب البيت للأسفل، البيت ينهار خطوطًا. <b>Cam:</b> تتبع المنحنى للأسفل.</div></div></div>
+<div class="beat"><div class="t">19.5–22.5</div><div><div class="vo">"Ronald? He didn't sell. He just… waited."</div><div class="dir"><b>Visual:</b> زر SELL يرتجف ثم ينشطب، ساعة رملية، تقويم يقلب صفحات 2008→2014 بسرعة، المنحنى يتعافى ذهبي. <b>Cam:</b> push-in على وجه البيدق.</div></div></div>
+<div class="beat"><div class="t">22.5–26.5</div><div><div class="vo">"When he died, his family found $8 million."</div><div class="dir"><b>Visual:</b> عداد ضخم <span class="en">$8,661 → $7,998,885 → $8,000,000</span> مع easing يتباطأ آخره. <b>SFX:</b> tick متسارع ثم ding.</div></div></div>
+<div class="beat"><div class="t">26.5–30.5</div><div><div class="vo">"He left most of it to his town's hospital and library."</div><div class="dir"><b>Visual:</b> المال يطير كقوس ذهبي من البيدق إلى مستشفى ومكتبة ترسمان نفسيهما، المدينة تضيء نافذة نافذة. <b>Cam:</b> pull-out واسع.</div></div></div>
+<div class="beat"><div class="t">30.5–34.0</div><div><div class="vo">"Wealth isn't what you earn. It's what you don't touch."</div><div class="dir"><b>Visual:</b> كابشن كلمة-بكلمة في المنتصف، كلمة <i>touch</i> بالسيريف الذهبي. خلفها شخصيتان، الأبيض يخفت.</div></div></div>
+<div class="beat"><div class="t">34.0–36.0</div><div><div class="vo">"Behavior beats brains. And that's why…"</div><div class="dir"><b>Visual:</b> شعار BEHAVIOR BEATS <i>brains.</i> + "CASE FILE 002 · TOMORROW". <b>Loop:</b> "…that's why" يقطع مباشرة لأول لقطة "One died with $8 million".</div></div></div>
+</div>
+
+<!-- ============ 6 ============ -->
+<h2><span class="n">06 / الأدوات</span>أهم مشاريع GitHub للوصول لهذا المستوى</h2>
+<p>الستايل هذا (شخصيات خطية، أيقونات، عدادات، كاميرا افتراضية) هو بالضبط نوع الفيديو اللي ينصنع <strong>بالكود</strong> أسرع وأنظف من المونتاج اليدوي. صمم قالبًا مرة واحدة، وكل حلقة تصير ملف نص.</p>
+
+<h3>محركات الأنيميشن (القلب)</h3>
+<ul class="tools">
+<li><code>remotion-dev/remotion</code><span>فيديو بـ React. أفضل خيار لك: قوالب، كابشن كلمة-بكلمة، عدادات، رندر 1080×1920. <span class="pill">مجاني للأفراد والفرق الصغيرة، رخصة شركة للأكبر</span> <span class="pill s">Skills جاهزة في هذه الجلسة</span></span></li>
+<li><code>motion-canvas/motion-canvas</code><span>أنيميشن بـ TypeScript مع توقيت دقيق على الصوت. ممتاز للـ morph والرسم الخطي (line draw) مثل فيديو 2.</span></li>
+<li><code>redotvideo/revideo</code><span>نسخة من Motion Canvas للرندر الآلي من سكربت أو API.</span></li>
+<li><code>ManimCommunity/manim</code><span>للرسوم البيانية والمنحنيات والأرقام (سلسلة The Math).</span></li>
+<li><code>greensock/GSAP</code><span>مكتبة easing وتايملاين، صارت مجانية بالكامل مع كل الإضافات (MorphSVG، DrawSVG).</span></li>
+<li><code>airbnb/lottie-web</code><span>تشغيل أيقونات متحركة جاهزة (Lottie) داخل Remotion.</span></li>
+</ul>
+
+<h3>أيقونات وأصول بنفس الستايل الخطي</h3>
+<ul class="tools">
+<li><code>lucide-icons/lucide</code><span>أيقونات خطية متناسقة، سماكة خط قابلة للتعديل لتطابق الشخصية.</span></li>
+<li><code>tabler/tabler-icons</code><span>أكثر من 5000 أيقونة خطية، فيها مال وبنوك ورسوم.</span></li>
+<li><code>phosphor-icons/core</code><span>أوزان متعددة (thin → bold)، ممتاز للتحول بين الأوزان.</span></li>
+</ul>
+
+<h3>الصوت والكابشن</h3>
+<ul class="tools">
+<li><code>SYSTRAN/faster-whisper</code><span>تفريغ سريع (استخدمته لتحليل فيديوهاتك هنا).</span></li>
+<li><code>m-bain/whisperX</code><span>توقيت لكل كلمة بدقة: أساس الكابشن المتحرك والأيقونات اللي تنط على الكلمة.</span></li>
+<li><code>ggml-org/whisper.cpp</code><span>يشتغل محليًا، وRemotion يدعمه مباشرة للكابشن.</span></li>
+<li><code>hexgrad/kokoro</code><span>صوت راوي مفتوح المصدر خفيف (Apache-2.0).</span></li>
+<li><code>resemble-ai/chatterbox</code><span>TTS مفتوح مع تحكم بالعاطفة والنبرة.</span></li>
+<li><code>facebookresearch/demucs</code><span>فصل الصوت عن الموسيقى لما تحتاج تنظف تسجيل.</span></li>
+<li><code>facebookresearch/audiocraft</code><span>توليد موسيقى. <span class="pill w">أوزان MusicGen غير تجارية: لا تستخدمها في فيديو مربح</span></span></li>
+</ul>
+
+<h3>المونتاج والتحليل والأتمتة</h3>
+<ul class="tools">
+<li><code>Breakthrough/PySceneDetect</code><span>قياس سرعة القص عند المنافسين، تعرف بالأرقام وين أنت.</span></li>
+<li><code>yt-dlp/yt-dlp</code><span>تنزيل مرجع لدراستك الشخصية فقط، لا إعادة نشر.</span></li>
+<li><code>WyattBlue/auto-editor</code><span>قص الصمت تلقائيًا لو سجلت صوتك.</span></li>
+<li><code>mifi/lossless-cut</code><span>قص سريع بدون إعادة ترميز.</span></li>
+<li><code>FFmpeg/FFmpeg</code><span>تصدير نهائي، ضغط، تحويل 60fps.</span></li>
+<li><code>harry0703/MoneyPrinterTurbo</code><span>ادرس طريقة الـ pipeline فقط. <span class="pill w">المحتوى الآلي الكامل معرض لرفض الربح</span></span></li>
+</ul>
+
+<h3>توليد بصري بالذكاء الاصطناعي (اختياري)</h3>
+<ul class="tools">
+<li><code>Comfy-Org/ComfyUI</code><span>لتوليد خلفيات وملمس (غبار ذهبي، إضاءة، ورق ملف قضية).</span></li>
+<li><code>Lightricks/LTX-Video</code> · <code>Wan-Video/Wan2.1</code><span>فيديو مفتوح المصدر للقطات انتقالية. للستايل الخطي، الكود أنظف من التوليد.</span></li>
+</ul>
+
+<h3>خارج GitHub</h3>
+<ul>
+<li><strong>After Effects</strong> + Animation Composer / Motion Bro: لو تبي المونتاج اليدوي. أو <strong>Jitter</strong> و<strong>Rive</strong> للحركة الخطية.</li>
+<li><strong>DaVinci Resolve</strong> (مجاني) للتجميع والصوت والتلوين.</li>
+<li><strong>ElevenLabs</strong>: صوت الراوي والمؤثرات الصوتية. متصل بهذه الجلسة.</li>
+<li>مؤثرات صوتية: حزمة Sonniss GDC المجانية، Freesound، مكتبة يوتيوب الصوتية. موسيقى مرخصة: Epidemic Sound أو Artlist.</li>
+</ul>
+
+<h3>المهارات المتاحة لي في هذه الجلسة</h3>
+<ul>
+<li><span class="en">remotion:*</span> لبناء القالب والرندر، <span class="en">remotion-captions</span> للكابشن.</li>
+<li><span class="en">social-media-skills: hook-writer, youtube-shorts, scripting-and-storyboarding, thumbnail-design, ai-music-and-sound, viral-reverse-engineering</span>.</li>
+<li><span class="en">TubeAlfred</span> لتحليل قنوات المنافسين وتفريغاتهم وتعليقات جمهورهم.</li>
+</ul>
+
+<!-- ============ 7 ============ -->
+<h2><span class="n">07 / المهارات</span>المهارات اللي تحتاج تتعلمها</h2>
+<div class="tbl"><table>
+<tr><th>المهارة</th><th>ليش</th><th>كيف تتدرب</th></tr>
+<tr><td>كتابة الهوك والـ open loop</td><td>أول 2 ثانية تقرر كل شي</td><td>اكتب 10 هوكات لكل فيديو واختار واحد</td></tr>
+<tr><td>Storyboard + Animatic</td><td>الاستعارة البصرية تنحسم قبل الأنيميشن</td><td>ارسم كل جملة كمربع واحد بفكرة بصرية واحدة</td></tr>
+<tr><td>Easing وتوقيت الحركة</td><td>الفرق بين "رخيص" و"احترافي" هو منحنيات الحركة</td><td>ادرس <span class="en">The 12 Principles of Animation</span>، استخدم easeOutExpo للدخول وeaseInOut للكاميرا</td></tr>
+<tr><td>الكاميرا الافتراضية</td><td>الحركة الدائمة تمسك العين</td><td>push-in، parallax، whip-pan، match-cut</td></tr>
+<tr><td>تصميم الصوت</td><td>نصف الإحساس بالسرعة سمعي</td><td>SFX لكل حدث بصري، تخفيض الموسيقى تحت الصوت (ducking)</td></tr>
+<tr><td>Typography hierarchy</td><td>كلمة واحدة مهمة بالشاشة</td><td>3 أحجام فقط، وزن واحد ثقيل</td></tr>
+<tr><td>React/TypeScript أساسي</td><td>لـ Remotion أو Motion Canvas</td><td>قالب واحد، وأنا أقدر أبنيه لك</td></tr>
+<tr><td>قراءة التحليلات</td><td>Retention graph يقول وين يطلع الناس</td><td>أي هبوط حاد = لقطة طويلة أو جملة مبهمة</td></tr>
+</table></div>
+
+<h2><span class="n">08 / الخطوة التالية</span>خطة أول أسبوعين</h2>
+<ol>
+<li>تثبيت الهوية: الاسم، الألوان، الخطوط، الماسكوت كملف SVG واحد بطبقات (رأس، جسم، ذراعين) قابل للتحريك.</li>
+<li>بناء قالب Remotion: خلفية بجزيئات، مكونات جاهزة (Pawn، Counter، Stamp، Chart، Caption، CaseFileHeader، WhipTransition).</li>
+<li>إعادة إنتاج Case File 001 بالمخطط أعلاه ومقارنة الـ retention بالنسخة القديمة.</li>
+<li>كتابة 10 سكريبتات Case Files بقصص أقل تداولًا.</li>
+<li>نشر يومي 14 يومًا، ثم قرار بناءً على متوسط مدة المشاهدة ونسبة الإعادة.</li>
+</ol>
+
+</div>
