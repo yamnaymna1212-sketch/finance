@@ -3,168 +3,214 @@
 <head>
 <meta charset="utf-8">
 <style>
-  :root { --bg:#0b0b0c; --gold:#e8b931; --rent:#4da3ff; --ash:#8a8f98; --line:#e9e6df; --red:#e5484d; }
-  html,body { margin:0; background:var(--bg); }
-  #stage { width:1080px; height:1920px; position:relative; overflow:hidden; transform-origin:50% 60%;
-    background: radial-gradient(ellipse at 50% 58%, #1c1913 0%, #0b0b0c 62%); font-family:'Inter Display','Inter',sans-serif; }
-  .hook { position:absolute; left:0; right:0; text-align:center; font-weight:800; letter-spacing:-1px; color:#fff; white-space:nowrap; font-size:90px; }
-  #h1 { top:250px; } #h2 { top:365px; }
-  .gold { color:var(--gold); } .red { color:var(--red); } .blue { color:var(--rent); }
-  #tag { position:absolute; top:150px; left:50%; transform:translateX(-50%); border:2px solid #4a4436;
-    color:#a8996c; font:700 26px 'Inter',sans-serif; letter-spacing:6px; padding:10px 26px; border-radius:40px; white-space:nowrap; }
-  #year { position:absolute; top:540px; left:0; right:0; text-align:center; color:#fff; font:800 72px 'Inter Display'; }
-  #year small { display:block; font:600 24px 'Inter'; letter-spacing:8px; color:var(--ash); margin-bottom:4px; }
-  .cap { position:absolute; top:1745px; left:0; right:0; text-align:center; color:#6f6c66; font:800 44px 'Inter Display'; letter-spacing:1px; }
-  .cap b { color:#fff; } .cap .gold { color:var(--gold); }
-  #brand { position:absolute; bottom:36px; left:0; right:0; text-align:center; color:var(--gold); opacity:.5; font:700 24px 'Inter'; letter-spacing:10px; }
+  :root { --ink:#ddd7cd; --dim:#8b877f; --gold:#e0b860; --red:#b8403c; --steel:#9fb4c8; }
+  html,body { margin:0; background:#111; }
+  #stage { width:1080px; height:1920px; position:relative; overflow:hidden;
+    background: linear-gradient(#1c1c1c 0%, #171717 55%, #101010 100%); font-family:'Inter Display','Inter',sans-serif; }
+  #world { position:absolute; inset:0; transform-origin:50% 62%; }
   svg { position:absolute; left:0; top:0; }
-  .draw { fill:none; stroke:var(--line); stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+  .head { position:absolute; left:0; right:0; top:250px; text-align:center; color:var(--ink);
+    font-weight:700; font-size:100px; line-height:1.08; letter-spacing:-1px; }
+  .head .red { color:var(--red); } .head .gold { color:var(--gold); }
+  #tag { position:absolute; top:56px; left:56px; border:1.5px solid #4b4537; color:#8d7f5c; border-radius:30px;
+    font:700 17px 'Inter'; letter-spacing:4px; padding:7px 16px; }
+  #cap { position:absolute; left:0; right:0; top:1510px; text-align:center; color:var(--dim);
+    font:800 38px 'Inter'; letter-spacing:.5px; }
+  #cap b { color:#f1ece3; }
+  #vignette { position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%); }
+  #grain { position:absolute; inset:0; pointer-events:none; opacity:.07; mix-blend-mode:screen; }
 </style>
 </head>
 <body>
 <div id="stage">
-  <div id="tag">CASE FILE 001 · RENT VS OWN</div>
-  <div class="hook" id="h1">THE OWNER IS <span class="red">BROKE.</span></div>
-  <div class="hook" id="h2">THE RENTER <span class="gold">ISN'T.</span></div>
-  <div id="year"><small>YEAR</small><span id="yearNum">0</span></div>
+  <div id="world">
+    <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+      <defs>
+        <radialGradient id="glow"><stop offset="0" stop-color="#e0b860" stop-opacity=".22"/><stop offset="1" stop-color="#e0b860" stop-opacity="0"/></radialGradient>
+        <linearGradient id="liqGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecd08e"/><stop offset="1" stop-color="#8a6a2c"/></linearGradient>
+        <linearGradient id="liqSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c3d3e2"/><stop offset="1" stop-color="#4f6478"/></linearGradient>
+        <linearGradient id="groundFade" x1="0" x2="1"><stop offset="0" stop-color="#ddd7cd" stop-opacity="0"/><stop offset=".15" stop-color="#ddd7cd" stop-opacity=".35"/><stop offset=".85" stop-color="#ddd7cd" stop-opacity=".35"/><stop offset="1" stop-color="#ddd7cd" stop-opacity="0"/></linearGradient>
+        <clipPath id="bodyClip"><path d="M-20,-210 L-36,-18 H36 L20,-210 Z"/></clipPath>
+        <g id="house" fill="none" stroke="#bdb7ad" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="-170" y="-270" width="340" height="270"/>
+          <polyline points="-200,-262 0,-410 200,-262"/>
+          <polyline points="100,-340 100,-392 134,-392 134,-312"/>
+          <polyline points="-72,-145 0,-190 72,-145 -72,-145"/>
+          <line x1="-62" y1="-145" x2="-62" y2="0"/><line x1="62" y1="-145" x2="62" y2="0"/>
+          <rect x="-27" y="-118" width="54" height="118"/>
+          <rect x="-148" y="-208" width="62" height="72"/><path d="M-117,-208 V-136 M-148,-172 H-86"/>
+          <rect x="86" y="-208" width="62" height="72"/><path d="M117,-208 V-136 M86,-172 H148"/>
+          <circle cx="0" cy="-314" r="22"/>
+        </g>
+      </defs>
 
-  <svg width="1080" height="1920" viewBox="0 0 1080 1920">
-    <defs>
-      <radialGradient id="glowBlue"><stop offset="0" stop-color="#4da3ff" stop-opacity=".45"/><stop offset="1" stop-color="#4da3ff" stop-opacity="0"/></radialGradient>
-      <radialGradient id="glowGold"><stop offset="0" stop-color="#e8b931" stop-opacity=".45"/><stop offset="1" stop-color="#e8b931" stop-opacity="0"/></radialGradient>
-      <linearGradient id="fillBlue" x1="0" y1="0" x2="0" y2="1"><stop offset=".35" stop-color="#4da3ff" stop-opacity="0"/><stop offset="1" stop-color="#4da3ff"/></linearGradient>
-      <linearGradient id="fillGold" x1="0" y1="0" x2="0" y2="1"><stop offset=".35" stop-color="#e8b931" stop-opacity="0"/><stop offset="1" stop-color="#e8b931"/></linearGradient>
-      <g id="house">
-        <rect class="draw" x="-190" y="-300" width="380" height="300"/>
-        <polyline class="draw" points="-225,-290 0,-460 225,-290"/>
-        <polyline class="draw" points="110,-380 110,-440 150,-440 150,-350"/>
-        <polyline class="draw" points="-80,-160 0,-210 80,-160 -80,-160"/>
-        <line class="draw" x1="-70" y1="-160" x2="-70" y2="0"/>
-        <line class="draw" x1="70" y1="-160" x2="70" y2="0"/>
-        <rect class="draw" x="-30" y="-130" width="60" height="130"/>
-        <rect class="draw" x="-165" y="-230" width="70" height="80"/>
-        <path class="draw" d="M-130,-230 V-150 M-165,-190 H-95"/>
-        <rect class="draw" x="95" y="-230" width="70" height="80"/>
-        <path class="draw" d="M130,-230 V-150 M95,-190 H165"/>
-        <circle class="draw" cx="0" cy="-350" r="26"/>
-        <path class="draw" d="M-45,0 V12 H45 V0"/>
+      <!-- faint light streak, like the channel's backgrounds -->
+      <line x1="-50" y1="1180" x2="1130" y2="1020" stroke="#ddd7cd" stroke-opacity=".06" stroke-width="3"/>
+      <!-- floor -->
+      <rect x="-200" y="1290" width="1480" height="900" fill="#0f0f0f"/>
+      <rect x="-200" y="1290" width="1480" height="3" fill="url(#groundFade)"/>
+
+      <!-- glow that follows whoever is winning -->
+      <ellipse id="glowL" cx="300" cy="1150" rx="330" ry="330" fill="url(#glow)"/>
+      <ellipse id="glowR" cx="780" cy="1150" rx="330" ry="330" fill="url(#glow)"/>
+
+      <!-- houses, set back and dimmer -->
+      <g opacity=".75">
+        <g transform="translate(300,1200)"><use href="#house"/></g>
+        <g transform="translate(780,1200)"><use href="#house"/></g>
+        <line x1="40" y1="1200" x2="1040" y2="1200" stroke="#bdb7ad" stroke-opacity=".35" stroke-width="2.5"/>
       </g>
-    </defs>
 
-    <!-- street -->
-    <line class="draw" x1="40" y1="1420" x2="1040" y2="1420"/>
-    <line x1="40" y1="1600" x2="1040" y2="1600" stroke="#3a3833" stroke-width="4"/>
-    <g stroke="#2e2c28" stroke-width="5" stroke-linecap="round">
-      <line x1="80" y1="1690" x2="160" y2="1690"/><line x1="240" y1="1690" x2="320" y2="1690"/>
-      <line x1="400" y1="1690" x2="480" y2="1690"/><line x1="560" y1="1690" x2="640" y2="1690"/>
-      <line x1="720" y1="1690" x2="800" y2="1690"/><line x1="880" y1="1690" x2="960" y2="1690"/>
-    </g>
-    <!-- walkways from door to sidewalk -->
-    <path d="M250,1432 L225,1600 M300,1432 L325,1600 M780,1432 L755,1600 M830,1432 L855,1600" stroke="#2e2c28" stroke-width="4" fill="none"/>
+      <!-- labels -->
+      <g id="labelL"><rect x="-82" y="-26" width="164" height="52" rx="26" fill="none" stroke="#9fb4c8" stroke-width="2"/>
+        <text y="11" text-anchor="middle" font-family="Inter" font-weight="800" font-size="28" letter-spacing="7" fill="#9fb4c8">RENT</text></g>
+      <g id="labelR"><rect x="-98" y="-26" width="196" height="52" rx="26" fill="none" stroke="#e0b860" stroke-width="2"/>
+        <text y="11" text-anchor="middle" font-family="Inter" font-weight="800" font-size="28" letter-spacing="7" fill="#e0b860">OWNER</text></g>
 
-    <g transform="translate(275,1420) scale(1.08)"><use href="#house"/></g>
-    <g transform="translate(805,1420) scale(1.08)"><use href="#house"/></g>
+      <!-- characters get built by script -->
+      <g id="charL"></g>
+      <g id="charR"></g>
 
-    <!-- fence + mailbox -->
-    <path d="M40,1420 V1385 M60,1420 V1385 M80,1420 V1385 M30,1395 H90 M1000,1420 V1385 M1020,1420 V1385 M1040,1420 V1385 M990,1395 H1050 M520,1420 V1360 M500,1360 H540 V1335 H500 Z" stroke="#5a5750" stroke-width="4" fill="none"/>
-
-    <!-- labels -->
-    <g id="labelL" transform="translate(275,850)">
-      <rect x="-125" y="-50" width="250" height="90" rx="45" fill="#4da3ff"/>
-      <text x="0" y="16" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="#0b0b0c" letter-spacing="6">RENT</text>
-    </g>
-    <g id="labelR" transform="translate(805,850)">
-      <rect x="-145" y="-50" width="290" height="90" rx="45" fill="#e8b931"/>
-      <text x="0" y="16" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="#0b0b0c" letter-spacing="6">OWNER</text>
-    </g>
-
-    <!-- characters: slim pawn with head + eye, like the reference style -->
-    <g id="pawnL" transform="translate(215,1600)">
-      <ellipse cx="0" cy="0" rx="120" ry="34" fill="url(#glowBlue)"/>
-      <g id="bodyL">
-        <path d="M-16,-190 L-30,-24 H30 L16,-190 Z" fill="url(#fillBlue)" stroke="#4da3ff" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M-28,-190 H28" stroke="#4da3ff" stroke-width="6" stroke-linecap="round"/>
-        <rect x="-42" y="-24" width="84" height="20" rx="5" fill="#4da3ff"/>
-        <circle cx="0" cy="-228" r="32" fill="#0b0b0c" stroke="#4da3ff" stroke-width="5"/>
-        <circle cx="-6" cy="-228" r="11" fill="#4da3ff"/>
+      <!-- debt icon above owner -->
+      <g id="debt">
+        <g id="debtBell" fill="none" stroke="#b8403c" stroke-width="5" stroke-linejoin="round">
+          <path d="M-20,-62 Q-20,-86 0,-86 Q20,-86 20,-62"/>
+          <path d="M-42,0 L-30,-62 H30 L42,0 Z" fill="#b8403c"/>
+        </g>
+        <text y="-22" text-anchor="middle" font-family="Inter" font-weight="800" font-size="19" letter-spacing="3" fill="#141414">DEBT</text>
       </g>
-    </g>
-    <g id="pawnR" transform="translate(865,1600)">
-      <ellipse cx="0" cy="0" rx="120" ry="34" fill="url(#glowGold)"/>
-      <g id="bodyR">
-        <path d="M-16,-190 L-30,-24 H30 L16,-190 Z" fill="url(#fillGold)" stroke="#e8b931" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M-28,-190 H28" stroke="#e8b931" stroke-width="6" stroke-linecap="round"/>
-        <rect x="-42" y="-24" width="84" height="20" rx="5" fill="#e8b931"/>
-        <circle cx="0" cy="-228" r="32" fill="#0b0b0c" stroke="#e8b931" stroke-width="5"/>
-        <circle cx="6" cy="-228" r="11" fill="#e8b931"/>
-      </g>
-    </g>
 
-    <!-- renter's savings jar -->
-    <g id="jar" transform="translate(345,1600)">
-      <clipPath id="jarClip"><path d="M-36,-100 H36 V-8 Q36,0 28,0 H-28 Q-36,0 -36,-8 Z"/></clipPath>
-      <rect id="jarFill" x="-40" y="0" width="80" height="0" fill="#e8b931" clip-path="url(#jarClip)"/>
-      <path d="M-36,-100 H36 V-8 Q36,0 28,0 H-28 Q-36,0 -36,-8 Z M-42,-112 H42 V-100 H-42 Z" fill="none" stroke="#e8b931" stroke-width="5"/>
-    </g>
+      <!-- coins above renter -->
+      <g id="coins"></g>
+    </svg>
+  </div>
 
-    <!-- owner's debt weight -->
-    <g id="debt" transform="translate(730,1600)">
-      <g id="debtInner">
-        <path d="M-60,0 L-45,-90 H45 L60,0 Z" fill="#e5484d"/>
-        <path d="M-22,-90 Q-22,-120 0,-120 Q22,-120 22,-90" fill="none" stroke="#e5484d" stroke-width="10"/>
-        <text x="0" y="-32" text-anchor="middle" font-family="Inter" font-weight="800" font-size="24" fill="#0b0b0c" letter-spacing="2">DEBT</text>
-      </g>
-    </g>
-  </svg>
+  <div id="tag">CASE FILE 001</div>
+  <div class="head" id="hA">THE OWNER<br>IS <span class="red">BROKE.</span></div>
+  <div class="head" id="hB">THE RENTER<br><span class="gold">ISN'T.</span></div>
+  <div class="head" id="hC">10 YEARS<br><span class="gold">LATER.</span></div>
+  <div id="cap"><b>SAME</b> HOUSE. <b>SAME</b> STREET.</div>
 
-  <div class="cap" id="cap1"><b>SAME</b> HOUSE. <b>SAME</b> STREET.</div>
-  <div class="cap" id="cap2">ONE PAYS <b class="blue">RENT</b>. ONE <span class="gold">OWNS</span>.</div>
-  <div id="brand">THE GOLD MIND</div>
+  <div id="vignette"></div>
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence id="turb" type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="1"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 </div>
 
 <script>
+const NS='http://www.w3.org/2000/svg';
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const prog=(t,s,e)=>clamp((t-s)/(e-s));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
 const easeOut=x=>1-Math.pow(1-x,3);
 const back=x=>{const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
 const $=id=>document.getElementById(id);
+const el=(tag,attrs,parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e;};
 
-window.render = function(t){
-  // Frame 0: full scene + hook line 1 already on screen. Small punch on the hook.
-  $('h1').style.transform=`scale(${1.06-0.06*easeOut(prog(t,0,0.2))})`;
-  const h2=prog(t,1.2,1.4); $('h2').style.opacity=h2>0?1:0; $('h2').style.transform=`scale(${1.06-0.06*easeOut(h2)})`;
+// Build a channel-style pawn character. dir = which way the eye looks.
+function buildChar(root, liquid, color, dir, tie){
+  el('ellipse',{cx:0,cy:3,rx:72,ry:10,fill:'#000','fill-opacity':.6},root);
+  const rig=el('g',{},root);              // whole body: breathing, squash, hop
+  el('rect',{x:-50,y:-18,width:100,height:18,rx:4,fill:color,stroke:'#f1ece3','stroke-width':3},rig);
+  el('path',{d:'M-20,-210 L-36,-18 H36 L20,-210 Z',fill:'#141414'},rig);
+  const liq=el('rect',{x:-40,y:-18,width:80,height:0,fill:`url(#${liquid})`,'clip-path':'url(#bodyClip)'},rig);
+  const liqTop=el('line',{x1:-36,x2:36,stroke:'#f6ecd2','stroke-opacity':.7,'stroke-width':2,'clip-path':'url(#bodyClip)'},rig);
+  el('path',{d:'M-20,-210 L-36,-18 H36 L20,-210 Z',fill:'none',stroke:'#f1ece3','stroke-width':4,'stroke-linejoin':'round'},rig);
+  if(tie) el('path',{d:'M-6,-210 L0,-150 L6,-210 Z',fill:'#e0b860'},rig);
+  const armL=el('line',{stroke:'#f1ece3','stroke-width':4,'stroke-linecap':'round'},rig);
+  const armR=el('line',{stroke:'#f1ece3','stroke-width':4,'stroke-linecap':'round'},rig);
+  el('rect',{x:-30,y:-222,width:60,height:12,rx:3,fill:'#f1ece3'},rig);
+  const head=el('g',{},rig);
+  el('rect',{x:-6,y:-234,width:12,height:14,fill:'#f1ece3'},head);
+  el('circle',{cx:0,cy:-272,r:38,fill:'#f1ece3'},head);
+  const pupil=el('ellipse',{cx:dir*7,cy:-272,rx:20,ry:20,fill:'#0d0d0d'},head);
+  return {root,rig,liq,liqTop,armL,armR,head,pupil,dir};
+}
+const L=buildChar($('charL'),'liqSteel','#9fb4c8', 1,false);
+const R=buildChar($('charR'),'liqGold','#e0b860',-1,true);
 
-  // idle bob on labels and characters
-  $('labelL').setAttribute('transform',`translate(275,${850+6*Math.sin(t*3)})`);
-  $('labelR').setAttribute('transform',`translate(805,${850+6*Math.sin(t*3+1.6)})`);
-  $('bodyL').setAttribute('transform',`translate(0,${-4*Math.abs(Math.sin(t*2.4))})`);
+const coinG=$('coins'), coins=[];
+for(let i=0;i<3;i++){const g=el('g',{},coinG);
+  el('circle',{r:26,fill:'none',stroke:'#e0b860','stroke-width':4},g);
+  el('circle',{r:19,fill:'none',stroke:'#e0b860','stroke-width':2,'stroke-opacity':.6},g);
+  el('text',{y:10,'text-anchor':'middle','font-family':'Inter','font-weight':800,'font-size':28,fill:'#e0b860'},g).textContent='$';
+  coins.push(g);}
 
-  // captions
-  $('cap1').style.opacity = t<2.2 ? 1 : 0;
-  $('cap2').style.opacity = t>=2.2 ? 1 : 0;
+function pose(c, x, t, o){
+  // o: {level, squash, sag, hop, swing, look}
+  const breathe=1+0.014*Math.sin(t*2*Math.PI*0.8 + x);
+  const sway=1.4*Math.sin(t*2*Math.PI*0.45 + x*0.01);
+  c.root.setAttribute('transform',`translate(${x},1290)`);
+  c.rig.setAttribute('transform',`translate(0,${-o.hop}) rotate(${sway*(1-o.sag)}) scale(${1+(1-o.squash)*0.6},${breathe*o.squash})`);
+  const h=192*o.level, y=-18-h;
+  c.liq.setAttribute('y',y); c.liq.setAttribute('height',h);
+  c.liqTop.setAttribute('y1',y+3*Math.sin(t*6)); c.liqTop.setAttribute('y2',y-3*Math.sin(t*6));
+  const sw=o.swing*Math.sin(t*2*Math.PI*0.7+x);
+  const hy=-110+o.sag*40-o.lift;
+  c.armL.setAttribute('x1',-22); c.armL.setAttribute('y1',-200);
+  c.armL.setAttribute('x2',-50-sw-o.lift*0.6); c.armL.setAttribute('y2',hy);
+  c.armR.setAttribute('x1',22); c.armR.setAttribute('y1',-200);
+  c.armR.setAttribute('x2',50-sw+o.lift*0.6); c.armR.setAttribute('y2',hy);
+  c.head.setAttribute('transform',`translate(0,${o.sag*14+2*Math.sin(t*2*Math.PI*0.8+x)})`);
+  c.pupil.setAttribute('cx',c.dir*7*o.look); c.pupil.setAttribute('cy',-272+o.sag*6);
+  c.pupil.setAttribute('ry',20*o.blink);
+}
+const blink=(t,times)=>{for(const b of times){const p=(t-b)/0.14;if(p>=0&&p<=1)return 0.12+0.88*Math.abs(1-2*p);}return 1;};
 
-  // debt drops on owner at 2.4s, owner sinks
-  const dp=prog(t,2.4,2.75); const dy=-900*(1-dp*dp);
-  const squash = dp>=1 ? 1-0.14*Math.max(0,1-prog(t,2.75,3.05)) : 1;
-  const growD = 1+0.4*easeOut(prog(t,3.4,6));
-  $('debt').setAttribute('transform',`translate(730,${1600+dy})`);
-  $('debt').setAttribute('opacity',dp>0?1:0);
-  $('debtInner').setAttribute('transform',`scale(${growD*(2-squash)},${growD*squash})`);
-  const sink = 16*easeOut(prog(t,2.7,3.1));
-  $('bodyR').setAttribute('transform',`translate(0,${sink}) scale(1,${1-sink/260})`);
+function showHead(id,t,s,e){
+  const a=prog(t,s,s+0.22), b=e?prog(t,e-0.15,e):0;
+  const v=s===0?(1-b):(a*(1-b));
+  const n=$(id); n.style.opacity=v;
+  n.style.filter=`blur(${(s===0?0:(1-a))*10 + b*10}px)`;
+  n.style.transform=`translateY(${(s===0?0:(1-easeOut(a)))*24 - b*12}px) scale(${s===0?1.03-0.03*easeOut(prog(t,0,0.3)):1})`;
+}
 
-  // renter's jar fills
-  const jp=prog(t,2.5,2.8); $('jar').setAttribute('opacity',jp>0?1:0);
-  $('jar').setAttribute('transform',`translate(345,1600) scale(${jp>0?back(jp):0.001})`);
-  const fill = 92*easeOut(prog(t,3.0,6));
-  $('jarFill').setAttribute('y',-fill); $('jarFill').setAttribute('height',fill);
+// camera keyframes: [time, x, y, zoom, rot]
+const CAM=[[0,0,0,1.00,0],[1.6,-30,0,1.04,-0.3],[2.25,40,-10,1.08,0.3],[3.5,-20,0,1.06,-0.2],[6,0,-20,1.12,0]];
+function cam(t){
+  let i=0; while(i<CAM.length-2&&t>CAM[i+1][0])i++;
+  const a=CAM[i],b=CAM[i+1],p=ease(prog(t,a[0],b[0]));
+  const v=a.map((x,k)=>x+(b[k]-x)*p);
+  // impact shake when debt lands
+  const s=prog(t,2.35,2.6), shake=s>0&&s<1?(1-s)*10*Math.sin(s*60):0;
+  return {x:v[1]+shake,y:v[2]+shake*0.5,z:v[3],r:v[4]};
+}
 
-  // year counter
-  $('year').style.opacity=prog(t,3.0,3.3);
-  $('yearNum').textContent = Math.floor(10*prog(t,3.3,5.9));
+window.render=function(t){
+  const c=cam(t);
+  $('world').style.transform=`translate(${c.x}px,${c.y}px) scale(${c.z}) rotate(${c.r}deg)`;
+  $('turb').setAttribute('seed',Math.floor(t*30)%97+1);
 
-  // slow push-in
-  $('stage').style.transform=`scale(${1+0.03*prog(t,0,6)})`;
+  showHead('hA',t,0,1.7); showHead('hB',t,1.7,3.6); showHead('hC',t,3.6,null);
+  const cp=prog(t,3.8,4.1); $('cap').style.opacity=cp; $('cap').style.transform=`translateY(${(1-easeOut(cp))*14}px)`;
+
+  // labels bob
+  $('labelL').setAttribute('transform',`translate(300,${735+5*Math.sin(t*2.6)})`);
+  $('labelR').setAttribute('transform',`translate(780,${735+5*Math.sin(t*2.6+1.5)})`);
+
+  // glow moves from owner to renter
+  const g=ease(prog(t,1.8,3.2));
+  $('glowR').setAttribute('opacity',1-g*0.85); $('glowL').setAttribute('opacity',0.15+g*0.85);
+
+  // debt: hovers above owner, then drops on his head
+  const dIn=prog(t,1.75,2.0), dDrop=prog(t,2.05,2.35);
+  const dy=-470+158*dDrop*dDrop + 8*Math.sin(t*4)*(1-dDrop);
+  const land=prog(t,2.35,2.7);
+  $('debt').setAttribute('transform',`translate(780,${1290+dy+(dDrop>=1?14*easeOut(prog(t,2.35,2.6)):0)}) scale(${dIn>0?back(dIn)*(1+0.15*easeOut(prog(t,3.6,6))):0.001})`);
+  $('debt').setAttribute('opacity',dIn>0?1:0);
+
+  // owner reaction
+  const hit=dDrop>=1;
+  const squashR = hit ? 0.88+0.08*easeOut(land) : 1;
+  const sagR = hit ? easeOut(land) : 0;
+  pose(R,780,t,{level:0.62-0.47*ease(prog(t,2.4,5.5)),squash:squashR,sag:sagR,hop:0,swing:sagR?1:6,lift:0,look:1-sagR,blink:blink(t,[0.9,4.6])});
+
+  // renter: fills up, small hop when coins arrive
+  const hopP=prog(t,2.9,3.35), hop=hopP>0&&hopP<1?Math.sin(hopP*Math.PI)*28:0;
+  pose(L,300,t,{level:0.2+0.5*ease(prog(t,2.6,5.8)),squash:1,sag:0,hop,swing:6,lift:hop*0.8,look:1,blink:blink(t,[1.3,3.9])});
+
+  coins.forEach((cg,i)=>{const p=prog(t,2.75+i*0.18,3.05+i*0.18);
+    cg.setAttribute('transform',`translate(${240+i*60},${880+6*Math.sin(t*3+i)}) scale(${p>0?back(p):0.001})`);
+    cg.setAttribute('opacity',p>0?1:0);});
 };
 window.render(0);
 </script>
